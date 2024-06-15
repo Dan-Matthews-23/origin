@@ -37,10 +37,15 @@
 <body>
     <header>
         {% include 'includes/header.html' %}
+        <div class=" container-fluid " id="nav-bar-container">
+            <div class=" row ">
+                <div class="  col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 g-0 ">
+                    {% include 'includes/nav-bar.html' %}
+                </div>                
+            </div>
+        </div>
     </header>
-    <!--This is the section that holds the banner with the deal of the week-->
     
-    <!--End of banner section-->
     <div class="container message-container">
         <div class="row">
             <div class="col col-sm-12 col-lg-12">
@@ -69,7 +74,5 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
 </body>
-<footer>
-        {% include 'includes/footer.html' %}
-    </footer>
+{% include 'includes/footer.html' %}
 </html>

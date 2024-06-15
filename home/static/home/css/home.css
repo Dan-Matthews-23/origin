@@ -1,3 +1,86 @@
-body {
-    font-size: 50px;
+body, header, footer {
+    background-color: black;
+}
+
+.main-banner {
+    width: 100%;   
+    height: 300px;
+    padding: 10px;      
+}
+
+.main-banner-text {
+    color: white;
+    font-size: 30px;
+}
+
+
+.footer-container {
+    width: 100%;    
+    height: 150px;
+    padding: 10px;  
+     
+}
+
+.nav-bar-container {
+    width:100%;    
+    height: 150px;
+    padding: 10px;       
+}
+
+/* Nav Page */
+#main-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 36px;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.nav-link-font {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    color: white;
+}
+
+#nav-bar-container {
+    background-color: black;
+
+
+}
+
+.nav-icons li {
+    display: inline-block;
+    padding-left: 35px;
+    padding-right: 35px;
+    color: white;
+}
+
+.nav-icons i {
+    font-size: 250%;
+    color: white;
+}
+
+#nav-icon-div {
+    margin: auto;
+   
+    padding-top: 15px;
+    padding-right: 10px;
+
+}
+
+.nav-small-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+
+
+
+
+
+.with-borders {
+    border-style:solid;
+    border-color: white;    
 }

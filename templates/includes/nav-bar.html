@@ -1,0 +1,41 @@
+<!--
+   This Nav Bar was adapted from Bootstrap 5 docs. See Readme for further info            
+    -->
+<nav class="navbar navbar-expand-lg navbar-dark ">
+    <div class="container-fluid">
+        <a class="navbar-brand" id="main-title" href="{% url 'home' %}">
+            {% if request.user.is_authenticated %}
+            {{user.username}}
+            {% else %}
+            Username
+            {% endif %}
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
+            aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+
+
+
+
+
+
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <button class="btn nav-link-font  dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Options
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item" href="{% url 'account_login' %}">Log in</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account_signup' %}">Register</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">Account</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">Battlefield</a></li>
+                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">Intel</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
