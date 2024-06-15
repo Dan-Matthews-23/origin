@@ -1,5 +1,6 @@
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.messages',
     'allauth',
-    'allauth.account',      
+    'allauth.account',
+    'home',     
     
 ]
     
@@ -55,7 +57,10 @@ ROOT_URLCONF = 'origin.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'templates', 'allauth'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
