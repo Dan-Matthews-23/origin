@@ -507,11 +507,9 @@ div.sticky-element {
 .col-index-background-left {
     
     border-radius: 0% 0% 80% 00%;
-    height: 300px;
+    height: 150px;
     width: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+   
 }
 
 .col-index-logo-left {
@@ -524,10 +522,10 @@ div.sticky-element {
 }
 
 .col-index-background-right {
-    height: 300px;
+    height: 150px;
     width: 90%;
     text-align: justify;
-    padding: 100px 150px 150px 150px;
+    
 }
 
 .index-header {

@@ -18,17 +18,18 @@ body {
 }
 
 
-#who-we-are,
-#our-promise,
-#how-we-do-it,
-#how-it-works {
+#spartan,
+#amazon,
+#atlantian,
+#witches {
     background-color: white;
-    width: 50%;
+    width: 100%;
     padding: 50px;
+    height: 300px;
     border-style: solid;
-    border-width: thin;
+    border-width: thick;
     border-color: black;
-    border-radius: 50%;
+    border-radius: 0%;
 }
 
 .intoduction-row {
@@ -93,10 +94,10 @@ ol {
 
 @media screen and (max-width: 1900px) {
 
-    #who-we-are,
-    #our-promise,
-    #how-we-do-it,
-    #how-it-works {
+    #spartan,
+    #amazon,
+    #atlantian,
+    #witches {
         border-radius: 0%;
         border-style: none;
     }
@@ -104,32 +105,32 @@ ol {
 
 @media screen and (max-width: 1800px) {
 
-    #who-we-are,
-    #our-promise,
-    #how-we-do-it,
-    #how-it-works {
-        width: 60%;
+    #spartan,
+    #amazon,
+    #atlantian,
+    #witches {
+        width: 80%;
         padding: 45px;
     }
 }
 
 @media screen and (max-width: 1700px) {
 
-    #who-we-are,
-    #our-promise,
-    #how-we-do-it,
-    #how-it-works {
-        width: 70%;
+    #spartan,
+    #amazon,
+    #atlantian,
+    #witches {
+        width: 80%;
         padding: 40px;
     }
 }
 
 @media screen and (max-width: 1600px) {
 
-    #who-we-are,
-    #our-promise,
-    #how-we-do-it,
-    #how-it-works {
+    #spartan,
+    #amazon,
+    #atlantian,
+    #witches {
         width: 80%;
         padding: 35px;
     }
@@ -137,56 +138,58 @@ ol {
 
 @media screen and (max-width: 1500px) {
 
-    #who-we-are,
-    #our-promise,
-    #how-we-do-it,
-    #how-it-works {
-        width: 90%;
+    #spartan,
+    #amazon,
+    #atlantian,
+    #witches {
+        width: 80%;
         padding: 30px;
     }
 }
 
 @media screen and (max-width: 1400px) {
 
-    #who-we-are,
-    #our-promise,
-    #how-we-do-it,
-    #how-it-works {
-        width: 100%;
+    #spartan,
+    #amazon,
+    #atlantian,
+    #witches {
+        width: 80%;
         padding: 25px;
     }
 }
 
 @media screen and (max-width: 1300px) {
 
-    #who-we-are,
-    #our-promise,
-    #how-we-do-it,
-    #how-it-works {
-        width: 100%;
+    #spartan,
+    #amazon,
+    #atlantian,
+    #witches {
+        width: 80%;
         padding: 20px;
     }
 }
 
 @media screen and (max-width: 1200px) {
 
-    #who-we-are,
-    #our-promise,
-    #how-we-do-it,
-    #how-it-works {
-        width: 100%;
+    #spartan,
+    #amazon,
+    #atlantian,
+    #witches {
+        width: 80%;
         padding: 15px;
+        height: 250px;
     }
 }
 
 @media screen and (max-width: 1100px) {
 
-    #who-we-are,
-    #our-promise,
-    #how-we-do-it,
-    #how-it-works {
-        width: 100%;
+    #spartan,
+    #amazon,
+    #atlantian,
+    #witches {
+        width: 80%;
         padding: 10px;
+        height: 200px;
     }
 }
 
