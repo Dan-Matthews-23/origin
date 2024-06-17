@@ -17,6 +17,21 @@ body {
     width: 50%;
 }
 
+.submit-btn-black {
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 16px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
 
 #spartan,
 #amazon,

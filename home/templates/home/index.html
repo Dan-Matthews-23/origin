@@ -167,5 +167,12 @@
             </div>
         </div>
     </div>
+    <div class="row lg-padding">
+        <div class="col">
+            <form method="POST" action="{% url 'account_signup' %}">
+                {% csrf_token %}
+                <button type="submit" class="submit-btn-black" value="register">Join the fight!</button>
+        </div>
+    </div>
 </div>
 {% endblock %}
