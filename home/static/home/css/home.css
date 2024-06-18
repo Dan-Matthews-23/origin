@@ -85,6 +85,11 @@ h4 {
 }
 
 
+.with-white-border {
+    border-style: solid;
+    border-color: white;
+}
+
 .index:link {
     color: black;
 }
