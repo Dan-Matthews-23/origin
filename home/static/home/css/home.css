@@ -68,6 +68,22 @@ h4 {
     font-size: 14px;
 }
 
+.with-borders {
+    border-style: solid;
+    border-color: black;
+   
+}
+
+.left-grid {
+    width: 100%;
+    float: left;
+}
+
+.right-grid {
+    width: 100%;
+    float: right;
+}
+
 
 .index:link {
     color: black;
