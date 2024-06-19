@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'home/css/home.css' %}">
+<link rel="stylesheet" href="{% static 'military/css/military.css' %}">
 {% endblock %}
 {% block content %}
 <div class="container-fluid">
@@ -10,12 +10,20 @@
             <div class="container-fluid left-grid with-borders">
                 <div class="row lg-padding">
                     <div class="col">
-                        <h1 class="title-table-header">Diplomacy</h1>
+                        <h1 class="title-table-header">Troops</h1>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Allies:</h3>
+                        <h3 class="standard-table-text">
+                            Soldiers win wars. From here you can train your Untrained Troops into fighting warriors.
+                            Make sure you have a careful balance between offensive, defensive and intelligence
+                        </h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Offensive Soldiers:</h3>
                     </div>
                     <div class="col">
                         <h3 class="standard-table-text">0</h3>
@@ -23,7 +31,7 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Enemies:</h3>
+                        <h3 class="title-table-header">Defensive Soldiers :</h3>
                     </div>
                     <div class="col">
                         <h3 class="standard-table-text">0</h3>
@@ -31,34 +39,7 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Non-Aggression Pacts:</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">0</h3>
-                    </div>
-                </div>
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">Diplomatic Power:</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">0</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 lg-padding with-borders ">
-            <div class="container-fluid left-grid with-borders">
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h1 class="title-table-header">Diplomacy</h1>
-                    </div>
-                </div>
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">Allies:</h3>
+                        <h3 class="title-table-header">Covert Operatives:</h3>
                     </div>
                     <div class="col">
                         <h3 class="standard-table-text">0</h3>
@@ -66,24 +47,7 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Enemies:</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">0</h3>
-                    </div>
-                </div>
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">Non-Aggression Pacts:</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">0</h3>
-                    </div>
-                </div>
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">Diplomatic Power:</h3>
+                        <h3 class="title-table-header">Untrained Units:</h3>
                     </div>
                     <div class="col">
                         <h3 class="standard-table-text">0</h3>
@@ -96,12 +60,21 @@
             <div class="container-fluid left-grid with-borders">
                 <div class="row lg-padding">
                     <div class="col">
-                        <h1 class="title-table-header">Diplomacy</h1>
+                        <h1 class="title-table-header">Equipment</h1>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Allies:</h3>
+                        <h3 class="standard-table-text">
+                            Before soldiers can win wars, they need equipment to do it. Sending them in unarmed will
+                            only get them killed. However, you are limited by your technology here. The better your
+                            technology level, the better equipment you can construct
+                        </h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">UNNAMED_OFFENSIVE_WEAPON:</h3>
                     </div>
                     <div class="col">
                         <h3 class="standard-table-text">0</h3>
@@ -109,29 +82,51 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Enemies:</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">0</h3>
-                    </div>
-                </div>
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">Non-Aggression Pacts:</h3>
+                        <h3 class="title-table-header">UNNAMED_DEFNSIVE_WEAPON:</h3>
                     </div>
                     <div class="col">
                         <h3 class="standard-table-text">0</h3>
                     </div>
                 </div>
 
+
+            </div>
+        </div>
+
+        <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 lg-padding with-borders ">
+            <div class="container-fluid left-grid with-borders">
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Diplomatic Power:</h3>
+                        <h1 class="title-table-header">Intelligence</h1>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="standard-table-text">
+                            It's vital you know what your enemy is thinking, and what their capabilities are before you
+                            attack, or before they attack you. Increasing your Intelligence Level and having a good
+                            number of intelligence officers will protect you...to some level
+                        </h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Intelligence Level:</h3>
                     </div>
                     <div class="col">
                         <h3 class="standard-table-text">0</h3>
                     </div>
                 </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Intelligence Operatives:</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">0</h3>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>
