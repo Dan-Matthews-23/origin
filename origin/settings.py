@@ -33,7 +33,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'allauth',
     'allauth.account',
-    'home',     
+    'home',
+    'production',
+    'user_account',
+    'diplomacy',
+    'fight',
+    'military',
+
     
 ]
     
