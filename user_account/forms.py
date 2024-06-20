@@ -9,25 +9,15 @@ class UserProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        placeholders = {
-            'phone_number': 'Your Phone Number',
-            'postcode': 'Postal Code',
-            'town_or_city': 'Town or City',
-            'street_address1': 'Street Address 1',
-            'street_address2': 'Street Address 2',
-            'county': 'County, State or Locality',
-            'full_name': 'full name',
+        placeholders = {            
+            'account_name': 'account_name',
             'email': 'email',
         }
 
-        self.fields['phone_number'].widget.attrs['autofocus'] = True
+        self.fields['account_name'].widget.attrs['autofocus'] = True
         for field in self.fields:
-            if field != 'country':
-                if self.fields[field].required:
-                    placeholder = f'{placeholders[field]} *'
-                else:
-                    placeholder = placeholders[field]
-                self.fields[field].widget.attrs['placeholder'] = placeholder
+            placeholder = placeholders[field]
+            self.fields[field].widget.attrs['placeholder'] = placeholder
             self.fields[field].widget.attrs['class'] = ('border-black '
                                                         'rounded-0 '
                                                         'profile-form-input')

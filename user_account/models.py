@@ -6,10 +6,9 @@ from django.dispatch import receiver
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-
+    account_name = models.CharField(max_length=80, null=True, blank=True)
+    email = models.CharField(max_length=80, null=True, blank=True)
     
-     
 
 
 @receiver(post_save, sender=User)

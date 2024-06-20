@@ -44,13 +44,11 @@ def update_user_account(request):
 @login_required
 def render_user_account(request):
     profile = get_object_or_404(UserProfile, user=request.user)
-    form = UserProfileForm(instance=profile)
-    orders = profile.orders.all().order_by('-date')
+    form = UserProfileForm(instance=profile)    
 
     template = 'user_account/user_account.html'
     context = {
-        'form': form,
-        'orders': orders,
+        'form': form,        
         'on_profile_page': True
     }
 
