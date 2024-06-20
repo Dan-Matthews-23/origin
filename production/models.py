@@ -11,3 +11,4 @@ class Production(models.Model):
     pop_growth = models.IntegerField(null=False, blank=False, default=10)
     knowledge_points = models.IntegerField(null=False, blank=False, default=10)
     income = models.IntegerField(null=False, blank=False, default=10)
+    data_crystal_balance = models.IntegerField(null=False, blank=False, default=10)
