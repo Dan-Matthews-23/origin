@@ -42,30 +42,34 @@
                     <div class="col">
                         <form method="POST" action="{% url 'increasePopGrowth' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="growth" value="10">Increase by 10
-                                population
-                                growth</button>
+                            <button type="submit" class="submit-btn-black" name="growth" value="10">Increase by 10 to {{getPopGrowthByTen}}</button>
                         </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByTen}}</h3>
+                    </div>
+
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <form method="POST" action="{% url 'increasePopGrowth' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-btn-black" name="growth" value="100">Increase by 100 to {{getPopGrowthByHundred}}</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByHundred}}</h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
                         <form method="POST" action="{% url 'increasePopGrowth' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="growth" value="100">Increase by 100
-                                population
-                                growth</button>
+                            <button type="submit" class="submit-btn-black" name="growth" value="1000">Increase by 1000 to {{getPopGrowthByThousand}}</button>
                         </form>
                     </div>
-                </div>
-                <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'increasePopGrowth' %}">
-                            {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="growth" value="1000">Increase by 1000
-                                population
-                                growth</button>
-                        </form>
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByThousand}}</h3>
                     </div>
                 </div>
             </div>
