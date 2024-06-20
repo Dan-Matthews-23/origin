@@ -27,7 +27,7 @@
                         <h3 class="title-table-header">Population Growth:</h3>
                     </div>
                     <div class="col">
-                        <h3 class="standard-table-text">0</h3>
+                        <h3 class="standard-table-text">{{getPopGrowth}}</h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
@@ -40,9 +40,9 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'account_signup' %}">
+                        <form method="POST" action="{% url 'increasePopGrowth' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" value="ten">Increase by 10
+                            <button type="submit" class="submit-btn-black" name="growth" value="10">Increase by 10
                                 population
                                 growth</button>
                         </form>
@@ -50,9 +50,9 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'account_signup' %}">
+                        <form method="POST" action="{% url 'increasePopGrowth' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" value="hundred">Increase by 100
+                            <button type="submit" class="submit-btn-black" name="growth" value="100">Increase by 100
                                 population
                                 growth</button>
                         </form>
@@ -60,9 +60,9 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'account_signup' %}">
+                        <form method="POST" action="{% url 'increasePopGrowth' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" value="thousand">Increase by 1000
+                            <button type="submit" class="submit-btn-black" name="growth" value="1000">Increase by 1000
                                 population
                                 growth</button>
                         </form>

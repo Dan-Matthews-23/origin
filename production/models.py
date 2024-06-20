@@ -1,3 +1,13 @@
 from django.db import models
+from django.db.models import Sum
+from django.conf import settings
+from user_account.models import UserProfile
 
-# Create your models here.
+
+class Production(models.Model):
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
+                                     null=True, blank=True,
+                                     related_name='production')
+    pop_growth = models.IntegerField(null=False, blank=False, default=10)
+    knowledge_points = models.IntegerField(null=False, blank=False, default=10)
+    income = models.IntegerField(null=False, blank=False, default=10)

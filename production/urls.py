@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('production', views.production, name='production'),
+    path('increasePopGrowth', views.increasePopGrowth, name='increasePopGrowth'),
 ]
 

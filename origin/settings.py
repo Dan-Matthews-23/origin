@@ -15,8 +15,8 @@ SECRET_KEY = 'django-insecure-+uoc2^fkz%=k@(7nv(&e*i9vxjneu%krmcxj457$a@-1=tyftb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8000-danmatthews23-origin-lols5kddryp.ws-eu114.gitpod.io']
-CSRF_TRUSTED_ORIGINS = ['https://8000-danmatthews23-origin-lols5kddryp.ws-eu114.gitpod.io']
+ALLOWED_HOSTS = ['8000-danmatthews23-origin-819o9ejp1tg.ws.codeinstitute-ide.net']
+CSRF_TRUSTED_ORIGINS = ['https://8000-danmatthews23-origin-819o9ejp1tg.ws.codeinstitute-ide.net']
 
 
 # Application definition
@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'diplomacy',
     'fight',
     'military',
-
-    
+    'crispy_forms',
+    'crispy_bootstrap5',    
 ]
     
 
@@ -59,6 +59,8 @@ MIDDLEWARE = (
 )
 
 ROOT_URLCONF = 'origin.urls'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 TEMPLATES = [
     {
@@ -76,6 +78,11 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'home.context_processors.active_user_count',
             ],
+            'builtins': [
+                'crispy_forms.templatetags.crispy_forms_tags',
+                'crispy_forms.templatetags.crispy_forms_field',
+            ]
+
         },
     },
 ]
