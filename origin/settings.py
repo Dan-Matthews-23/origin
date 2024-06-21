@@ -77,6 +77,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'home.context_processors.active_user_count',
+                'home.context_processors.data_crystal_balance',
             ],
             'builtins': [
                 'crispy_forms.templatetags.crispy_forms_tags',

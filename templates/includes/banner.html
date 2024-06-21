@@ -1,0 +1,22 @@
+<div class="container-fluid black-background">
+    <div class="row">
+        <div class="col">
+            <ul class="navbar-nav mr-auto nav-icons">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item ">
+                    <a class="nav-link-font" href="#">Bank: {{ data_crystal_balance }} data crystals </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link-font" href="#">{{ active_user_count }} players online </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+                        
+                        
+
+
+              
