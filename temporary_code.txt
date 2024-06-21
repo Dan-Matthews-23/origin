@@ -1,0 +1,22 @@
+def increaseknowledge(request):
+    base_cost = settings.BASE_POP_INCREASE_COST
+    if request.method == 'POST':
+        growth_amount = int(request.POST.get('knowledge'))
+        if growth_amount:
+            profile = request.user.userprofile
+            production_object = Production.objects.get(user_profile=profile)
+            growth_cost = ((production_object.knowledge + growth_amount) * base_cost)
+            if production_object.data_crystal_balance >= growth_cost:
+                production_object.knowledge += growth_amount
+                production_object.data_crystal_balance -= growth_cost
+                production_object.save()
+                messages.success(request, 'Data Crystal production  increased.')                
+                return redirect('production')
+            else:
+                messages.error(request, 'Insufficient resources for data crystal production increase.')
+                return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.error(request, 'No data crystal production amount was selected')
+            return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        return render(request, 'production/production.html')

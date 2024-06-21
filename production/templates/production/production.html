@@ -108,29 +108,35 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'account_signup' %}">
+                        <form method="POST" action="{% url 'increaseIncome' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" value="ten">Increase by 10
-                                data crystals</button>
+                            <button type="submit" class="submit-btn-black" name="income" value="10">Increase by 10 to {{getIncomeByTen}}</button>
                         </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByTenIncome}}</h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'account_signup' %}">
+                        <form method="POST" action="{% url 'increaseIncome' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" value="hundred">Increase by 100
-                                data crystals</button>
+                            <button type="submit" class="submit-btn-black" name="income" value="100">Increase by 10 to {{getIncomeByHundred}}</button>
                         </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByHundredIncome}}</h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'account_signup' %}">
+                        <form method="POST" action="{% url 'increaseIncome' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" value="thousand">Increase by 1000
-                                data crystals</button>
+                            <button type="submit" class="submit-btn-black" name="income" value="1000">Increase by 10 to {{getIncomeByThousand}}</button>
                         </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByThousandIncome}}</h3>
                     </div>
                 </div>
             </div>
@@ -169,29 +175,35 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'account_signup' %}">
+                        <form method="POST" action="{% url 'increaseKnowledge' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" value="ten">Increase by 10
-                                knowledge points</button>
+                            <button type="submit" class="submit-btn-black" name="knowledge" value="10">Increase by 10 to {{getKnowledgeByTen}}</button>
                         </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByTenKnowledge}}</h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'account_signup' %}">
+                        <form method="POST" action="{% url 'increaseKnowledge' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" value="hundred">Increase by 100
-                                knowledge points</button>
+                            <button type="submit" class="submit-btn-black" name="knowledge" value="100">Increase by 10 to {{getKnowledgeByHundred}}</button>
                         </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByHundredKnowledge}}</h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'account_signup' %}">
+                        <form method="POST" action="{% url 'increaseKnowledge' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" value="thousand">Increase by 1000
-                                knowledge points</button>
+                            <button type="submit" class="submit-btn-black" name="knowledge" value="1000">Increase by 10 to {{getKnowledgeByThousand}}</button>
                         </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByThousandKnowledge}}</h3>
                     </div>
                 </div>
             </div>
