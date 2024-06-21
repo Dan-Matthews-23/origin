@@ -176,10 +176,14 @@ div.sticky-element {
     letter-spacing: 2px;
     font-weight: bold;
     color: white;
+    text-decoration: none;
 }
 
 #nav-bar-container {
     background-color: black;
+    width: 100%;
+    border-style: solid;
+    border-color: red;
 
 
 }
