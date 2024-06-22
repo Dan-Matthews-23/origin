@@ -3,8 +3,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='home'),
-    path('home/', views.overview, name='overview')
+    path('', views.home, name='home'),
+    path('overview/', views.overview, name='overview')
 
 ]
 
