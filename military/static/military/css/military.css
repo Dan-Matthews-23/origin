@@ -128,6 +128,11 @@ ol {
     padding: 5px;
 }
 
+.small-quantity {
+    width: 50px;
+}
+
+
 @media screen and (max-width: 1900px) {
 
     #spartan,

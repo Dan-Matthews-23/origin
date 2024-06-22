@@ -24,6 +24,15 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
+                        <h3 class="title-table-header">Untrained Units:</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">{{untrained_units}}</h3>
+                    </div>
+                </div>
+
+                <div class="row lg-padding">
+                    <div class="col">
                         <h3 class="title-table-header">Tier One Attack Troops:</h3>
                     </div>
                     <div class="col">
@@ -105,62 +114,68 @@
                         <h3 class="standard-table-text">{{income_specialists}}</h3>
                     </div>
                 </div>
+            </div>
+        </div>
 
+        <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 lg-padding with-borders ">
+            <div class="container-fluid left-grid with-borders">
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Untrained Units:</h3>
+                        <h1 class="title-table-header">Troops</h1>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col">
-                        <h3 class="standard-table-text">{{untrained_units}}</h3>
+                        <h3 class="standard-table-text">
+                            Soldiers win wars. A careful balance of attack, defence, intelligence and income will ensure
+                            your victory. Train your Untrained Units into a fighting force!
+                        </h3>
                     </div>
                 </div>
 
-
-
-
-
-
-
-
                 <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'increasePopGrowth' %}">
-                            {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="growth" value="10">Increase by 10 to
-                                {{getPopGrowthByTen}}</button>
-                        </form>
+                        <h3 class="title-table-header">Unit</h3>
                     </div>
                     <div class="col">
-                        <h3 class="standard-table-text">Cost: {{increaseProjectionByTen}}</h3>
+                        <h3 class="standard-table-text">Cost</h3>
                     </div>
-
+                    <div class="col">
+                        <h3 class="title-table-header">Quantity</h3>
+                    </div>
                 </div>
+
                 <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'increasePopGrowth' %}">
-                            {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="growth" value="100">Increase by 100 to
-                                {{getPopGrowthByHundred}}</button>
-                        </form>
+                        <h3 class="title-table-header">Tier One Attack Troops</h3>
                     </div>
                     <div class="col">
-                        <h3 class="standard-table-text">Cost: {{increaseProjectionByHundred}}</h3>
+                        <h3 class="standard-table-text">
+                            {{t1_cost}}
+                        </h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">
+                            <input class="small-quantity" type="text" name="t1" id="t1" value="">
+                        </h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <form method="POST" action="{% url 'increasePopGrowth' %}">
+                        <form method="POST" action="{% url 'increaseIncome' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="growth" value="1000">Increase by 1000
-                                to {{getPopGrowthByThousand}}</button>
+                            <button type="submit" class="submit-btn-black" name="train-troops" value="">Train
+                                troops</button>
                         </form>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">Cost: {{increaseProjectionByThousand}}</h3>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
+
+
 
         <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 lg-padding with-borders ">
             <div class="container-fluid left-grid with-borders">

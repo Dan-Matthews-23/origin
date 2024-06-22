@@ -5,8 +5,12 @@ from user_account.models import UserProfile
 from user_account.forms import UserProfileForm
 from django.contrib import messages
 from django.conf import settings
+from home.faction_data import FactionData, TierInfo
 
 def military(request):
+
+    print(TierInfo)
+
     profile = UserProfile.objects.get(user=request.user)
     try:
         troops_object = Troops.objects.get(user_profile=profile)
