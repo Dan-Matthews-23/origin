@@ -5,11 +5,20 @@ from user_account.models import UserProfile
 from user_account.forms import UserProfileForm
 from django.contrib import messages
 from django.conf import settings
-from home.faction_data import FactionData, TierInfo
+from home.faction_data import military_units
 
 def military(request):
 
-    print(TierInfo)
+        # Access the dictionary
+    """faction_name = "Amazon"
+    unit_info = military_units[faction_name]
+
+    # access unit information by tier
+    attack_tier_one_unit = unit_info["attack_tier_one"]
+
+    print(attack_tier_one_unit)"""
+
+
 
     profile = UserProfile.objects.get(user=request.user)
     try:

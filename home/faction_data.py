@@ -1,24 +1,54 @@
-class TierInfo:
-  def __init__(self, tier_one_name, tier_two_name, tier_three_name):
-    self.tier_one_name = tier_one_name
-    self.tier_two_name = tier_two_name
-    self.tier_three_name = tier_three_name
-
-class FactionData:
-  def __init__(self, faction_name, tier_info):
-    self.faction_name = faction_name
-    self.tier_info = tier_info
-
-# Creating data objects
-spartan_tiers = TierInfo("Recruit", "Knight", "Elite")
-spartan_data = FactionData("Spartan", spartan_tiers)
-
-amazon_tiers = TierInfo("Training", "Scout", "Master")
-amazon_data = FactionData("Amazon", amazon_tiers)
-
-# Calling the data
-faction_data = spartan_data  # or amazon_data
-tier_two_name = faction_data.tier_info.tier_two_name  # access nested data
-
-# All data can be stored in a list
-all_factions = [spartan_data, amazon_data]
+military_units = {
+  "Spartan": {
+    "attack_tier_one": "Trainee Soldier",
+    "attack_tier_two": "Graduate Platoon",
+    "attack_tier_three": "Offensive Regiment",
+    "defence_tier_one": "Defender",
+    "defence_tier_two": "Defending Platoon",
+    "defence_tier_three": "Defending Regiment",
+    "intel_tier_one": "Trainee Officer",
+    "intel_tier_two": "Graduated Officer",
+    "intel_tier_three": "Distinguished Officer",
+    "income_specialists": "Income Specialist",
+    "untrained_units": "Untrained Unit"
+  },
+  "Amazon": {
+    "attack_tier_one": "Trainee Soldier",
+    "attack_tier_two": "Warrior Platoon",
+    "attack_tier_three": "Offensive Regiment",
+    "defence_tier_one": "Guardian",
+    "defence_tier_two": "Guardian Platoon",
+    "defence_tier_three": "Guardian Regiment",
+    "intel_tier_one": "Trainee Officer",
+    "intel_tier_two": "Graduated Officer",
+    "intel_tier_three": "Distinguished Officer",
+    "income_specialists": "Income Specialist",
+    "untrained_units": "Untrained Unit"
+  },
+  "Atlantian": {
+    "attack_tier_one": "Trainee Soldier",
+    "attack_tier_two": "Warrior Platoon",
+    "attack_tier_three": "Offensive Regiment",
+    "defence_tier_one": "Guardian",
+    "defence_tier_two": "Guardian Platoon",
+    "defence_tier_three": "Guardian Regiment",
+    "intel_tier_one": "Trainee Officer",
+    "intel_tier_two": "Graduated Officer",
+    "intel_tier_three": "Distinguished Officer",
+    "income_specialists": "Income Specialist",
+    "untrained_units": "Untrained Unit"
+  },
+  "Witch": {
+    "attack_tier_one": "Trainee Soldier",
+    "attack_tier_two": "Warrior Platoon",
+    "attack_tier_three": "Offensive Regiment",
+    "defence_tier_one": "Guardian",
+    "defence_tier_two": "Guardian Platoon",
+    "defence_tier_three": "Guardian Regiment",
+    "intel_tier_one": "Trainee Officer",
+    "intel_tier_two": "Graduated Officer",
+    "intel_tier_three": "Distinguished Officer",
+    "income_specialists": "Income Specialist",
+    "untrained_units": "Untrained Unit"
+  }
+}

@@ -156,7 +156,7 @@
                     </div>
                     <div class="col">
                         <h3 class="standard-table-text">
-                            <input class="small-quantity" type="text" name="t1" id="t1" value="">
+                            <input class="small-quantity" type="text" name="t1" id="t1" value="0">
                         </h3>
                     </div>
                 </div>
@@ -164,7 +164,8 @@
                     <div class="col">
                         <form method="POST" action="{% url 'increaseIncome' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="train-troops" value="">Train
+                            <button type="submit" class="submit-btn-black" name="train-troops" value=""
+                                placeholder="0">Train
                                 troops</button>
                         </form>
                     </div>
