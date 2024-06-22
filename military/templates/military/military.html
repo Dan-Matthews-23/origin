@@ -6,6 +6,7 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row lg-padding">
+
         <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 lg-padding with-borders ">
             <div class="container-fluid left-grid with-borders">
                 <div class="row lg-padding">
@@ -13,44 +14,149 @@
                         <h1 class="title-table-header">Troops</h1>
                     </div>
                 </div>
-                <div class="row lg-padding">
+                <div class="row">
                     <div class="col">
                         <h3 class="standard-table-text">
-                            Soldiers win wars. From here you can train your Untrained Troops into fighting warriors.
-                            Make sure you have a careful balance between offensive, defensive and intelligence
+                            Soldiers win wars. A careful balance of attack, defence, intelligence and income will ensure
+                            your victory. Train your Untrained Units into a fighting force!
                         </h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Offensive Soldiers:</h3>
+                        <h3 class="title-table-header">Tier One Attack Troops:</h3>
                     </div>
                     <div class="col">
-                        <h3 class="standard-table-text">0</h3>
+                        <h3 class="standard-table-text">{{weak_attack_troops}}</h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Defensive Soldiers :</h3>
+                        <h3 class="title-table-header">Tier Two Attack Troops:</h3>
                     </div>
                     <div class="col">
-                        <h3 class="standard-table-text">0</h3>
+                        <h3 class="standard-table-text">{{strong_attack_troops}}</h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Covert Operatives:</h3>
+                        <h3 class="title-table-header">Tier Three Attack Troops:</h3>
                     </div>
                     <div class="col">
-                        <h3 class="standard-table-text">0</h3>
+                        <h3 class="standard-table-text">{{elite_attack_troops}}</h3>
                     </div>
                 </div>
+
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Tier One Defence Troops:</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">{{weak_defence_troops}}</h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Tier Two Defence Troops:</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">{{strong_defence_troops}}</h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Tier Three Defence Troops:</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">{{elite_defence_troops}}</h3>
+                    </div>
+                </div>
+
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Tier One Intelligence Troops:</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">{{weak_intel_troops}}</h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Tier Two Intelligence Troops:</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">{{strong_intel_troops}}</h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Tier Three Intelligence Troops:</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">{{elite_intel_troops}}</h3>
+                    </div>
+                </div>
+
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Income Specialists:</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">{{income_specialists}}</h3>
+                    </div>
+                </div>
+
                 <div class="row lg-padding">
                     <div class="col">
                         <h3 class="title-table-header">Untrained Units:</h3>
                     </div>
                     <div class="col">
-                        <h3 class="standard-table-text">0</h3>
+                        <h3 class="standard-table-text">{{untrained_units}}</h3>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+                <div class="row lg-padding">
+                    <div class="col">
+                        <form method="POST" action="{% url 'increasePopGrowth' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-btn-black" name="growth" value="10">Increase by 10 to
+                                {{getPopGrowthByTen}}</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByTen}}</h3>
+                    </div>
+
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <form method="POST" action="{% url 'increasePopGrowth' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-btn-black" name="growth" value="100">Increase by 100 to
+                                {{getPopGrowthByHundred}}</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByHundred}}</h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <form method="POST" action="{% url 'increasePopGrowth' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-btn-black" name="growth" value="1000">Increase by 1000
+                                to {{getPopGrowthByThousand}}</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByThousand}}</h3>
                     </div>
                 </div>
             </div>
@@ -60,21 +166,20 @@
             <div class="container-fluid left-grid with-borders">
                 <div class="row lg-padding">
                     <div class="col">
-                        <h1 class="title-table-header">Equipment</h1>
+                        <h1 class="title-table-header">Income</h1>
                     </div>
                 </div>
-                <div class="row lg-padding">
+                <div class="row">
                     <div class="col">
                         <h3 class="standard-table-text">
-                            Before soldiers can win wars, they need equipment to do it. Sending them in unarmed will
-                            only get them killed. However, you are limited by your technology here. The better your
-                            technology level, the better equipment you can construct
+                            A strong economy means a strong empire. Each turn, your income specialists generate 0 data
+                            crystals, which are the currency in Origins.
                         </h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">UNNAMED_OFFENSIVE_WEAPON:</h3>
+                        <h3 class="title-table-header">Data Crystal production:</h3>
                     </div>
                     <div class="col">
                         <h3 class="standard-table-text">0</h3>
@@ -82,14 +187,48 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">UNNAMED_DEFNSIVE_WEAPON:</h3>
+                        <h3 class="title-table-header">Income Specialists:</h3>
                     </div>
                     <div class="col">
                         <h3 class="standard-table-text">0</h3>
                     </div>
                 </div>
-
-
+                <div class="row lg-padding">
+                    <div class="col">
+                        <form method="POST" action="{% url 'increaseIncome' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-btn-black" name="income" value="10">Increase by 10 to
+                                {{getIncomeByTen}}</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByTenIncome}}</h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <form method="POST" action="{% url 'increaseIncome' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-btn-black" name="income" value="100">Increase by 10 to
+                                {{getIncomeByHundred}}</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByHundredIncome}}</h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <form method="POST" action="{% url 'increaseIncome' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-btn-black" name="income" value="1000">Increase by 10 to
+                                {{getIncomeByThousand}}</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByThousandIncome}}</h3>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -97,21 +236,20 @@
             <div class="container-fluid left-grid with-borders">
                 <div class="row lg-padding">
                     <div class="col">
-                        <h1 class="title-table-header">Intelligence</h1>
+                        <h1 class="title-table-header">Knowledge Points</h1>
                     </div>
                 </div>
-                <div class="row lg-padding">
+                <div class="row">
                     <div class="col">
                         <h3 class="standard-table-text">
-                            It's vital you know what your enemy is thinking, and what their capabilities are before you
-                            attack, or before they attack you. Increasing your Intelligence Level and having a good
-                            number of intelligence officers will protect you...to some level
+                            A stagnant empire is a broken one. Knowledge is power! Each turn, your scientists generate 0
+                            knowledge points. Use them wisely!
                         </h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Intelligence Level:</h3>
+                        <h3 class="title-table-header">Knowledge Point production:</h3>
                     </div>
                     <div class="col">
                         <h3 class="standard-table-text">0</h3>
@@ -119,16 +257,52 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Intelligence Operatives:</h3>
+                        <h3 class="title-table-header">Scientists:</h3>
                     </div>
                     <div class="col">
                         <h3 class="standard-table-text">0</h3>
                     </div>
                 </div>
-
-
+                <div class="row lg-padding">
+                    <div class="col">
+                        <form method="POST" action="{% url 'increaseKnowledge' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-btn-black" name="knowledge" value="10">Increase by 10 to
+                                {{getKnowledgeByTen}}</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByTenKnowledge}}</h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <form method="POST" action="{% url 'increaseKnowledge' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-btn-black" name="knowledge" value="100">Increase by 10
+                                to {{getKnowledgeByHundred}}</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByHundredKnowledge}}</h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <form method="POST" action="{% url 'increaseKnowledge' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-btn-black" name="knowledge" value="1000">Increase by 10
+                                to {{getKnowledgeByThousand}}</button>
+                        </form>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">Cost: {{increaseProjectionByThousandKnowledge}}</h3>
+                    </div>
+                </div>
             </div>
         </div>
+
+
     </div>
 </div>
 {% endblock %}

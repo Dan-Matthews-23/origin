@@ -1,18 +1,17 @@
-from django.contrib.auth.models import User
-from django.utils import timezone
-from production.models import Production
 from django.contrib.auth.decorators import login_required
-
-
-def active_user_count(request):
-    threshold = timezone.now() - timezone.timedelta(minutes=30)
-    active_user_count = User.objects.filter(last_login__gte=threshold).count()
-    return {'active_user_count': active_user_count}
-
-
 from django.contrib.auth.models import User
 from django.utils import timezone
 from production.models import Production
+import time
+
+
+
+
+
+
+
+
+
 
 def active_user_count(request):
     threshold = timezone.now() - timezone.timedelta(minutes=30)
