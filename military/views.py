@@ -5,21 +5,92 @@ from user_account.models import UserProfile
 from user_account.forms import UserProfileForm
 from django.contrib import messages
 from django.conf import settings
-from home.faction_data import military_units
-
-def military(request):
-
-        # Access the dictionary
-    """faction_name = "Amazon"
-    unit_info = military_units[faction_name]
-
-    # access unit information by tier
-    attack_tier_one_unit = unit_info["attack_tier_one"]
-
-    print(attack_tier_one_unit)"""
+from faction_data.models import TroopAttributes
+#rom home.faction_data import military_units
 
 
 
+
+def getTroopAttributes(request):
+    getTroopAttributes = TroopAttributes.objects.get()    
+    attack_tier_one_name = getTroopAttributes.attack_tier_one_name
+    attack_tier_one_power = getTroopAttributes.attack_tier_one_power
+    attack_tier_one_cost = getTroopAttributes.attack_tier_one_cost
+    attack_tier_two_name = getTroopAttributes.attack_tier_two_name
+    attack_tier_two_power = getTroopAttributes.attack_tier_two_power
+    attack_tier_two_cost = getTroopAttributes.attack_tier_two_cost
+    attack_tier_three_name = getTroopAttributes.attack_tier_three_name
+    attack_tier_three_power = getTroopAttributes.attack_tier_three_power
+    attack_tier_three_cost = getTroopAttributes.attack_tier_three_cost
+    defence_tier_one_name = getTroopAttributes.defence_tier_one_name
+    defence_tier_one_power = getTroopAttributes.defence_tier_one_power
+    defence_tier_one_cost = getTroopAttributes.defence_tier_one_cost
+    defence_tier_two_name = getTroopAttributes.defence_tier_two_name
+    defence_tier_two_power = getTroopAttributes.defence_tier_two_power
+    defence_tier_two_cost = getTroopAttributes.defence_tier_two_cost
+    defence_tier_three_name = getTroopAttributes.defence_tier_three_name
+    defence_tier_three_power = getTroopAttributes.defence_tier_three_power
+    defence_tier_three_cost = getTroopAttributes.defence_tier_three_cost
+    intel_tier_one_name = getTroopAttributes.intel_tier_one_name
+    intel_tier_one_power = getTroopAttributes.intel_tier_one_power
+    intel_tier_one_cost = getTroopAttributes.intel_tier_one_cost
+    intel_tier_two_name = getTroopAttributes.intel_tier_two_name
+    intel_tier_two_power = getTroopAttributes.intel_tier_two_power
+    intel_tier_two_cost = getTroopAttributes.intel_tier_two_cost
+    intel_tier_three_name = getTroopAttributes.intel_tier_three_name
+    intel_tier_three_power = getTroopAttributes.intel_tier_three_power
+    intel_tier_three_cost = getTroopAttributes.intel_tier_three_cost
+    income_specialist_name = getTroopAttributes.income_specialist_name
+    income_specialist_power = getTroopAttributes.income_specialist_power
+    income_specialist_cost = getTroopAttributes.income_specialist_cost    
+    
+    
+    troopAttributes = {
+            'attack_tier_one_name': attack_tier_one_name,
+            'attack_tier_one_power': attack_tier_one_power,
+            'attack_tier_one_cost' : attack_tier_one_cost,
+            'attack_tier_two_name' : attack_tier_two_name,
+            'attack_tier_two_power' : attack_tier_two_power,
+            'attack_tier_two_cost' : attack_tier_two_cost,
+            'attack_tier_three_name' : attack_tier_three_name,
+            'attack_tier_three_power' : attack_tier_three_power,
+            'attack_tier_three_cost' : attack_tier_three_cost,
+            'defence_tier_one_name' : defence_tier_one_name,
+            'defence_tier_one_power' : defence_tier_one_power,
+            'defence_tier_one_cost' : defence_tier_one_cost,
+            'defence_tier_two_name' : defence_tier_two_name,
+            'defence_tier_two_power' : defence_tier_two_power,
+            'defence_tier_two_cost' : defence_tier_two_cost,
+            'defence_tier_three_name' : defence_tier_three_name,
+            'defence_tier_three_power' : defence_tier_three_power,
+            'defence_tier_three_cost' : defence_tier_three_cost,
+            'intel_tier_one_name' : intel_tier_one_name,
+            'intel_tier_one_power' : intel_tier_one_power,
+            'intel_tier_one_cost' : intel_tier_one_cost,
+            'intel_tier_two_name' : intel_tier_two_name,
+            'intel_tier_two_power' : intel_tier_two_power,
+            'intel_tier_two_cost' : intel_tier_two_cost,
+            'intel_tier_three_name' : intel_tier_three_name,
+            'intel_tier_three_power' : intel_tier_three_power,
+            'intel_tier_three_cost' : intel_tier_three_cost,
+            'income_specialist_name' : income_specialist_name,
+            'income_specialist_power' : income_specialist_power,
+            'income_specialist_cost' : income_specialist_cost,
+        }
+    #print(f" troopAttributes attack tier one is {troopAttributes['attack_tier_one_name']}")
+    return troopAttributes
+    
+
+
+
+def military(request):  
+    
+    troopAttributes = getTroopAttributes(request)
+    #print(troopAttributes)
+    print(f" troopAttributes attack tier one is {troopAttributes['attack_tier_one_name']}")      
+        
+        
+    
     profile = UserProfile.objects.get(user=request.user)
     try:
         troops_object = Troops.objects.get(user_profile=profile)
