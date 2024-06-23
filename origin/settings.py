@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'military',
     'crispy_forms',
     'crispy_bootstrap5',
-    'faction_data',   
+    'faction_data',
+    'player_power',
 ]
     
 

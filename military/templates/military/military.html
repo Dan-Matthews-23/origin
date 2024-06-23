@@ -117,6 +117,10 @@
             </div>
         </div>
 
+
+
+
+
         <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 lg-padding with-borders ">
             <div class="container-fluid left-grid with-borders">
                 <div class="row lg-padding">
@@ -132,270 +136,264 @@
                         </h3>
                     </div>
                 </div>
+                <form method="POST" action="{% url 'trainTroops' %}">
+                    {% csrf_token %}
 
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">Unit</h3>
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">Unit</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">Power</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">Cost</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="title-table-header">Quantity</h3>
+                        </div>
                     </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">Power</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">Cost</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="title-table-header">Quantity</h3>
-                    </div>
-                </div>
-
-
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">{{troopAttributes.t1_attack_name}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t1_attack_power}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t1_attack_cost}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <input class="small-quantity" type="text" name="t1_attack" id="t1_attack" value="0">
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">{{troopAttributes.t2_attack_name}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t2_attack_power}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t2_attack_cost}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <input class="small-quantity" type="text" name="t2_attack" id="t2_attack" value="0">
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">{{troopAttributes.t3_attack_name}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t3_attack_power}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t3_attack_cost}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <input class="small-quantity" type="text" name="t3_attack" id="t3_attack" value="0">
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">{{troopAttributes.t1_defence_name}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t1_defence_power}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t1_defence_cost}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <input class="small-quantity" type="text" name="t1_defence" id="t1_defence" value="0">
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">{{troopAttributes.t2_defence_name}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t2_defence_power}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t2_defence_cost}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <input class="small-quantity" type="text" name="t2_defence" id="t2_defence" value="0">
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">{{troopAttributes.t3_defence_name}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t3_defence_power}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t3_defence_cost}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <input class="small-quantity" type="text" name="t3_defence" id="t3_defence" value="0">
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">{{troopAttributes.t1_intel_name}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t1_intel_power}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t1_intel_cost}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <input class="small-quantity" type="text" name="t1_intel" id="t1_intel" value="0">
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">{{troopAttributes.t2_intel_name}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t2_intel_power}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t2_intel_cost}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <input class="small-quantity" type="text" name="t2_intel" id="t2_intel" value="0">
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">{{troopAttributes.t3_intel_name}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t3_intel_power}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t3_intel_cost}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <input class="small-quantity" type="text" name="t3_intel" id="t3_intel" value="0">
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">{{troopAttributes.t3_intel_name}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t3_intel_power}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t3_intel_cost}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <input class="small-quantity" type="text" name="t3_intel" id="t3_intel" value="0">
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">{{troopAttributes.t3_income_name}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t3_income_power}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            {{troopAttributes.t3_income_cost}}
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <input class="small-quantity" type="text" name="t3_income" id="t3_income" value="0">
-                        </h3>
-                    </div>
-                </div>
 
 
 
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">{{troopAttributes.t1_attack_name}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t1_attack_power}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t1_attack_cost}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <input class="small-quantity" type="text" name="t1_attack" id="t1_attack" value="0">
+                            </h3>
+                        </div>
+                    </div>
 
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">{{troopAttributes.t2_attack_name}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t2_attack_power}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t2_attack_cost}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <input class="small-quantity" type="text" name="t2_attack" id="t2_attack" value="0">
+                            </h3>
+                        </div>
+                    </div>
 
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">{{troopAttributes.t3_attack_name}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t3_attack_power}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t3_attack_cost}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <input class="small-quantity" type="text" name="t3_attack" id="t3_attack" value="0">
+                            </h3>
+                        </div>
+                    </div>
 
-                <div class="row lg-padding">
-                    <div class="col">
-                        <form method="POST" action="{% url 'increaseIncome' %}">
-                            {% csrf_token %}
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">{{troopAttributes.t1_defence_name}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t1_defence_power}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t1_defence_cost}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <input class="small-quantity" type="text" name="t1_defence" id="t1_defence" value="0">
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">{{troopAttributes.t2_defence_name}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t2_defence_power}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t2_defence_cost}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <input class="small-quantity" type="text" name="t2_defence" id="t2_defence" value="0">
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">{{troopAttributes.t3_defence_name}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t3_defence_power}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t3_defence_cost}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <input class="small-quantity" type="text" name="t3_defence" id="t3_defence" value="0">
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">{{troopAttributes.t1_intel_name}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t1_intel_power}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t1_intel_cost}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <input class="small-quantity" type="text" name="t1_intel" id="t1_intel" value="0">
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">{{troopAttributes.t2_intel_name}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t2_intel_power}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t2_intel_cost}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <input class="small-quantity" type="text" name="t2_intel" id="t2_intel" value="0">
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">{{troopAttributes.t3_intel_name}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t3_intel_power}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t3_intel_cost}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <input class="small-quantity" type="text" name="t3_intel" id="t3_intel" value="0">
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">{{troopAttributes.t3_intel_name}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t3_intel_power}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t3_intel_cost}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <input class="small-quantity" type="text" name="t3_intel" id="t3_intel" value="0">
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">{{troopAttributes.t3_income_name}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t3_income_power}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                {{troopAttributes.t3_income_cost}}
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <input class="small-quantity" type="text" name="t3_income" id="t3_income" value="0">
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="row lg-padding">
+                        <div class="col">
                             <button type="submit" class="submit-btn-black" name="train-troops" value=""
                                 placeholder="0">Train
                                 troops</button>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 
