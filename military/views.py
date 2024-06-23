@@ -219,6 +219,8 @@ def trainTroops(request):
 
     t3_income_cost = (troopAttributes['t3_income_cost'] * t3_quantity_income)
 
+    total_cost = t1_attack_cost + t2_attack_cost + t3_attack_cost + t1_defence_cost + t2_defence_cost + t3_defence_cost + t1_intel_cost + t2_intel_cost + t3_intel_cost + t3_income_cost
+
 
 
     if production_object.data_crystal_balance < t1_attack_cost:
@@ -275,24 +277,41 @@ def trainTroops(request):
         t1_attack_power = (troopAttributes['t1_attack_power'] * t1_quantity_attack)
         t2_attack_power = (troopAttributes['t2_attack_power'] * t2_quantity_attack)
         t3_attack_power = (troopAttributes['t3_attack_power'] * t3_quantity_attack)
-
         t1_defence_power = (troopAttributes['t1_defence_power'] * t1_quantity_defence)
         t2_defence_power = (troopAttributes['t2_defence_power'] * t2_quantity_defence)
         t3_defence_power = (troopAttributes['t3_defence_power'] * t3_quantity_defence)
-
         t1_intel_power = (troopAttributes['t1_intel_power'] * t1_quantity_intel)
         t2_intel_power = (troopAttributes['t2_intel_power'] * t2_quantity_intel)
         t3_intel_power = (troopAttributes['t3_intel_power'] * t3_quantity_intel)
-
         t3_income_power = (troopAttributes['t3_income_power'] * t3_quantity_income)
 
+        total_untrained = data["attack"] + data["defence"] + data["intel"] + data["income"]
 
-        print("Yes, you have enough money and untrained to do this")
+        update_troops = Troops.objects.get(user_profile=profile)
+        update_troops.weak_attack_troops += t1_quantity_attack
+        update_troops.strong_attack_troops += t2_quantity_attack
+        update_troops.elite_attack_troops += t3_quantity_attack
+        update_troops.weak_defence_troops += t1_quantity_defence
+        update_troops.strong_defence_troops += t2_quantity_defence
+        update_troops.elite_defence_troops += t3_quantity_defence
+        update_troops.weak_intel_troops += t1_quantity_intel
+        update_troops.strong_intel_troops += t2_quantity_intel
+        update_troops.elite_intel_troops += t3_quantity_intel
+        update_troops.income_specialists += t3_quantity_income
+        update_troops.untrained_units =  update_troops.untrained_units - total_untrained
+        update_troops.save()
+
+        update_data_crystals = Production.objects.get(user_profile=profile)
+        update_data_crystals.data_crystal_balance = update_data_crystals.data_crystal_balance - total_cost
+        update_data_crystals.save()
+        
         calculateAttack = calculate_attack(request)
         calculateDefence = calculate_defence(request)
         calculateIntel = calculate_intel(request)
         calculateIncome = calculate_income(request)
-        print(calculateAttack)     
+
+        messages.success(request, 'Purchase successful.')
+        return redirect('renderMilitary')           
     return redirect('renderMilitary')
 
 

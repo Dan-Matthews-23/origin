@@ -12,3 +12,8 @@ class PlayerPower(models.Model):
     defence = models.IntegerField(null=False, blank=False, default=0)
     intel = models.IntegerField(null=False, blank=False, default=0)
     income = models.IntegerField(null=False, blank=False, default=0)
+    attack_rank = models.IntegerField(null=False, blank=False, default=0)
+    defence_rank = models.IntegerField(null=False, blank=False, default=0)
+    intel_rank = models.IntegerField(null=False, blank=False, default=0)
+    income_rank = models.IntegerField(null=False, blank=False, default=0)
+    overall_rank = models.IntegerField(null=False, blank=False, default=0)

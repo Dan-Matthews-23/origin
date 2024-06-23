@@ -3,16 +3,31 @@ from django.contrib.auth.models import User
 from military.models import Troops
 from user_account.models import UserProfile
 from faction_data.models import TroopAttributes
+from .models import PlayerPower
 
 def calculate_attack(request):
-  profile = UserProfile.objects.get(user=request.user)
-  troops = Troops.objects.get(user_profile=profile)  
-  total_attack_power = (
-      troops.weak_attack_troops * TroopAttributes.objects.get().attack_tier_one_power +
-      troops.strong_attack_troops * TroopAttributes.objects.get().attack_tier_two_power +
-      troops.elite_attack_troops * TroopAttributes.objects.get().attack_tier_three_power
+    profile = UserProfile.objects.get(user=request.user)
+    troops = Troops.objects.get(user_profile=profile)
+    total_attack_power = (
+        troops.weak_attack_troops * TroopAttributes.objects.get().attack_tier_one_power +
+        troops.strong_attack_troops * TroopAttributes.objects.get().attack_tier_two_power +
+        troops.elite_attack_troops * TroopAttributes.objects.get().attack_tier_three_power
   )
-  return total_attack_power
+
+    try:
+        update_attack = PlayerPower.objects.get(user_profile=profile)
+        update_attack.attack = total_attack_power
+        update_attack.save()
+    except PlayerPower.DoesNotExist:
+        # Option 1: Use a different variable name
+        new_power = PlayerPower.objects.create(
+            user_profile=profile,
+            attack=total_attack_power,
+            defence=0,
+            intel=0,
+            income=0,
+        )
+    return total_attack_power
 
 
 def calculate_defence(request):
@@ -35,6 +50,7 @@ def calculate_intel(request):
         troops.elite_intel_troops * TroopAttributes.objects.get().intel_tier_three_power
     )
     return total_intel_power
+
 
 def calculate_income(request):
     profile = UserProfile.objects.get(user=request.user)
