@@ -17,9 +17,13 @@ def overview(request):
     
     context = {
         'render_attack' : getPlayerPower.attack,
+        'render_attack_rank': getPlayerPower.attack_rank,
         'render_defence' : getPlayerPower.defence,
+        'render_defence_rank': getPlayerPower.defence_rank,
         'render_intel' : getPlayerPower.intel,
+        'render_intel_rank': getPlayerPower.intel_rank,
         'render_income' : getPlayerPower.income,
+        'render_income_rank': getPlayerPower.income_rank,
     }
 
     return render(request, 'home/overview.html', context)
