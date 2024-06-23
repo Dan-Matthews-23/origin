@@ -3,6 +3,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('military', views.military, name='military'),
+    path('renderMilitary', views.renderMilitary, name='renderMilitary'),
 ]
 

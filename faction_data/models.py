@@ -34,6 +34,9 @@ class TroopAttributes(models.Model):
     income_specialist_name = models.CharField(null=False, blank=False, default="Income Specialist", max_length=50)
     income_specialist_power = models.IntegerField(null=False, blank=False, default=1000)
     income_specialist_cost = models.IntegerField(null=False, blank=False, default=10000)
+    untrained_name = models.CharField(null=False, blank=False, default="Untrained Unit", max_length=50)
+    untrained_cost = models.IntegerField(null=False, blank=False, default=0)
+    untrained_power = models.IntegerField(null=False, blank=False, default=0)
     
 
 

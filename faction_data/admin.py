@@ -35,6 +35,9 @@ class TroopAttributesAdmin(admin.ModelAdmin):
         'income_specialist_name',        
         'income_specialist_power',
         'income_specialist_cost',
+        'untrained_name',
+        'untrained_power',
+        'untrained_cost',
         )
         
     list_display = (
@@ -68,6 +71,9 @@ class TroopAttributesAdmin(admin.ModelAdmin):
         'income_specialist_name',        
         'income_specialist_power',
         'income_specialist_cost', 
+        'untrained_name',
+        'untrained_power',
+        'untrained_cost',
         )
 admin.site.register(TroopAttributes, TroopAttributesAdmin)
 
