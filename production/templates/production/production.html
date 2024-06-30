@@ -42,7 +42,8 @@
                     <div class="col">
                         <form method="POST" action="{% url 'increasePopGrowth' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="growth" value="10">Increase by 10 to {{getPopGrowthByTen}}</button>
+                            <button type="submit" class="submit-btn-black" name="growth" value="10">Increase by 10 to
+                                {{getPopGrowthByTen}}</button>
                         </form>
                     </div>
                     <div class="col">
@@ -54,7 +55,8 @@
                     <div class="col">
                         <form method="POST" action="{% url 'increasePopGrowth' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="growth" value="100">Increase by 100 to {{getPopGrowthByHundred}}</button>
+                            <button type="submit" class="submit-btn-black" name="growth" value="100">Increase by 100 to
+                                {{getPopGrowthByHundred}}</button>
                         </form>
                     </div>
                     <div class="col">
@@ -65,7 +67,8 @@
                     <div class="col">
                         <form method="POST" action="{% url 'increasePopGrowth' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="growth" value="1000">Increase by 1000 to {{getPopGrowthByThousand}}</button>
+                            <button type="submit" class="submit-btn-black" name="growth" value="1000">Increase by 1000
+                                to {{getPopGrowthByThousand}}</button>
                         </form>
                     </div>
                     <div class="col">
@@ -95,7 +98,7 @@
                         <h3 class="title-table-header">Data Crystal production:</h3>
                     </div>
                     <div class="col">
-                        <h3 class="standard-table-text">0</h3>
+                        <h3 class="standard-table-text">{{getIncomeGrowth}}</h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
@@ -103,14 +106,15 @@
                         <h3 class="title-table-header">Income Specialists:</h3>
                     </div>
                     <div class="col">
-                        <h3 class="standard-table-text">0</h3>
+                        <h3 class="standard-table-text">{{troopNumbers.t3_income}}</h3>
                     </div>
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
                         <form method="POST" action="{% url 'increaseIncome' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="income" value="10">Increase by 10 to {{getIncomeByTen}}</button>
+                            <button type="submit" class="submit-btn-black" name="income" value="10">Increase by 10 to
+                                {{getIncomeByTen}}</button>
                         </form>
                     </div>
                     <div class="col">
@@ -121,7 +125,8 @@
                     <div class="col">
                         <form method="POST" action="{% url 'increaseIncome' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="income" value="100">Increase by 10 to {{getIncomeByHundred}}</button>
+                            <button type="submit" class="submit-btn-black" name="income" value="100">Increase by 10 to
+                                {{getIncomeByHundred}}</button>
                         </form>
                     </div>
                     <div class="col">
@@ -132,7 +137,8 @@
                     <div class="col">
                         <form method="POST" action="{% url 'increaseIncome' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="income" value="1000">Increase by 10 to {{getIncomeByThousand}}</button>
+                            <button type="submit" class="submit-btn-black" name="income" value="1000">Increase by 10 to
+                                {{getIncomeByThousand}}</button>
                         </form>
                     </div>
                     <div class="col">
@@ -177,7 +183,8 @@
                     <div class="col">
                         <form method="POST" action="{% url 'increaseKnowledge' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="knowledge" value="10">Increase by 10 to {{getKnowledgeByTen}}</button>
+                            <button type="submit" class="submit-btn-black" name="knowledge" value="10">Increase by 10 to
+                                {{getKnowledgeByTen}}</button>
                         </form>
                     </div>
                     <div class="col">
@@ -188,7 +195,8 @@
                     <div class="col">
                         <form method="POST" action="{% url 'increaseKnowledge' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="knowledge" value="100">Increase by 10 to {{getKnowledgeByHundred}}</button>
+                            <button type="submit" class="submit-btn-black" name="knowledge" value="100">Increase by 10
+                                to {{getKnowledgeByHundred}}</button>
                         </form>
                     </div>
                     <div class="col">
@@ -199,7 +207,8 @@
                     <div class="col">
                         <form method="POST" action="{% url 'increaseKnowledge' %}">
                             {% csrf_token %}
-                            <button type="submit" class="submit-btn-black" name="knowledge" value="1000">Increase by 10 to {{getKnowledgeByThousand}}</button>
+                            <button type="submit" class="submit-btn-black" name="knowledge" value="1000">Increase by 10
+                                to {{getKnowledgeByThousand}}</button>
                         </form>
                     </div>
                     <div class="col">

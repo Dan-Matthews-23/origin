@@ -5,10 +5,18 @@ from django.dispatch import receiver
 #from .models import Production
 
 
+FACTION_CHOICES = (
+    ("amazons", "Amazons"),
+    ("spartans", "Spartans"),
+    ("atlantians", "Atlantians"),
+    ("witches", "Witches"),
+)
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     account_name = models.CharField(max_length=80, null=True, blank=True)
     email = models.CharField(max_length=80, null=True, blank=True)
+    faction = models.CharField(max_length=20, choices=FACTION_CHOICES)
     
 
 

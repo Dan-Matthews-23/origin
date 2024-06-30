@@ -22,8 +22,9 @@ def active_user_count(request):
 def data_crystal_balance(request):
     if request.user.is_authenticated:
         profile = request.user.userprofile
-        production_object = Production.objects.get(user_profile=profile)
+        
         try:
+            production_object = Production.objects.get(user_profile=profile)
             data_crystal_balance = production_object.data_crystal_balance
             data_crystal_balance = "{:,d}".format(data_crystal_balance)
             return {'data_crystal_balance': data_crystal_balance}

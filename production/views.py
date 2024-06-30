@@ -5,6 +5,7 @@ from user_account.models import UserProfile
 from user_account.forms import UserProfileForm
 from django.contrib import messages
 from django.conf import settings
+from military.views import getTroopNumbers
 
 def production(request):
     profile = UserProfile.objects.get(user=request.user)
@@ -49,7 +50,11 @@ def production(request):
         )
         pop_growth = production_object.pop_growth
         income_growth = production_object.income
-        knowledge_growth = production_object.knowledge_points    
+        knowledge_growth = production_object.knowledge_points
+
+    troopNumbers = getTroopNumbers(request)
+    
+
     context = {
         'getPopGrowth': pop_growth,
         'getPopGrowthByTen': getPopGrowthByTen,
@@ -72,6 +77,7 @@ def production(request):
         'increaseProjectionByHundredKnowledge': increaseProjectionByHundredCostKnowledge,
         'getKnowledgeByThousand': getKnowledgeByThousand,
         'increaseProjectionByThousandKnowledge': increaseProjectionByThousandCostKnowledge,
+        'troopNumbers': troopNumbers,
     }
     return render(request, 'production/production.html', context)
 
