@@ -10,7 +10,7 @@
             <div class="container-fluid left-grid with-borders">
                 <div class="row lg-padding">
                     <div class="col">
-                        <h1 class="title-table-header">Player</h1>
+                        <h1 class="title-table-header">{{ player_info.attack}}</h1>
                     </div>
                     <div class="col">
                         <h1 class="title-table-header">Faction</h1>
@@ -25,30 +25,6 @@
                         <h1 class="title-table-header">Available Data Crystals</h1>
                     </div>
                 </div>
-
-                {% for player in players %}
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <a href="{% url 'player_info' player.id %}">
-                                {{ player.username|safe }}
-                            </a>
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">{{player.faction}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">Intel:{{player.intel}} </h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">{{player.army_size}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">{{player.data_crystal_balance}}</h3>
-                    </div>
-                </div>
-                {% endfor %}
             </div>
         </div>
     </div>
