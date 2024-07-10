@@ -6,10 +6,10 @@ from django.dispatch import receiver
 
 
 FACTION_CHOICES = (
-    ("amazons", "Amazons"),
-    ("spartans", "Spartans"),
-    ("atlantians", "Atlantians"),
-    ("witches", "Witches"),
+    ("Amazons", "Amazons"),
+    ("Spartans", "Spartans"),
+    ("Atlantians", "Atlantians"),
+    ("Witches", "Witches"),
 )
 
 class UserProfile(models.Model):

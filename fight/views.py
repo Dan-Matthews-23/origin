@@ -39,13 +39,15 @@ def fight(request):
 
     for player in UserProfile.objects.all():#, Troops.objects.all():
         try:
+            
             get_player_troops = Troops.objects.get(user_profile=player)
             get_player_power = PlayerPower.objects.get(user_profile=player)
             get_player_production = Production.objects.get(user_profile=player)
 
-            
+            player_id =  player.id
+            get_intel_status = check_intelligence(request, player_id)
 
-            if get_user_power.intel >= get_player_power.intel:
+            if get_intel_status == True:
                 player_troops = get_player_troops.weak_attack_troops
                 player_data_crystal_balance =  f"{get_player_production.data_crystal_balance:,}"
             else:
@@ -116,7 +118,7 @@ def player_info(request, player_id):
 
     
     player_info = {
-        'target_name': player.account_name,
+        'target_name': player.user,
         'target_faction': player.faction,        
         'get_player_power': get_player_power.attack,       
         'data_crystal_balance': f"{get_player_production.data_crystal_balance:,}",  
