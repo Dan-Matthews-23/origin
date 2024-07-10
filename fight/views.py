@@ -83,26 +83,46 @@ def player_info(request, player_id):
     get_intel_status = check_intelligence(request, player_id)
     #print(get_intel_status)
 
+    if get_intel_status == True:    
+        target_troops = {
+            'weak_attack_troops': get_player_troops.weak_attack_troops, 
+            'strong_attack_troops': get_player_troops.strong_attack_troops,
+            'elite_attack_troops': get_player_troops.elite_attack_troops,
+            'weak_defence_troops': get_player_troops.weak_defence_troops,
+            'strong_defence_troops': get_player_troops.strong_defence_troops,
+            'elite_defence_troops': get_player_troops.elite_defence_troops,
+            'weak_intel_troops':get_player_troops.weak_intel_troops,
+            'strong_intel_troops': get_player_troops.strong_intel_troops,
+            'elite_intel_troops': get_player_troops.elite_intel_troops,
+            'income_specialists':get_player_troops.income_specialists,
+            'untrained_units':get_player_troops.untrained_units,
+            'get_player_troops': get_player_troops.weak_attack_troops,
+        }
+    else:
+        target_troops = {
+            'weak_attack_troops': "???", 
+            'strong_attack_troops': "???",
+            'elite_attack_troops': "???",
+            'weak_defence_troops': "???",
+            'strong_defence_troops': "???",
+            'elite_defence_troops': "???",
+            'weak_intel_troops': "???",
+            'strong_intel_troops': "???",
+            'elite_intel_troops': "???",
+            'income_specialists': "???",
+            'untrained_units': "???",
+            'get_player_troops': "???",
+        }
+
+    
     player_info = {
         'target_name': player.account_name,
-        'target_faction': player.faction,
-        'weak_attack_troops': get_player_troops.weak_attack_troops, 
-        'strong_attack_troops': get_player_troops.strong_attack_troops,
-        'elite_attack_troops': get_player_troops.elite_attack_troops,
-        'weak_defence_troops': get_player_troops.weak_defence_troops,
-        'strong_defence_troops': get_player_troops.strong_defence_troops,
-        'elite_defence_troops': get_player_troops.elite_defence_troops,
-        'weak_intel_troops':get_player_troops.weak_intel_troops,
-        'strong_intel_troops': get_player_troops.strong_intel_troops,
-        'elite_intel_troops': get_player_troops.elite_intel_troops,
-        'income_specialists':get_player_troops.income_specialists,
-        'untrained_units':get_player_troops.untrained_units,
-        'get_player_troops': get_player_troops.weak_attack_troops,
+        'target_faction': player.faction,        
         'get_player_power': get_player_power.attack,       
         'data_crystal_balance': f"{get_player_production.data_crystal_balance:,}",  
     }
 
-    context = {'player_info': player_info}
+    context = {'player_info': player_info, 'target_troops': target_troops}
 
     return render(request, 'fight/player_info.html', context)
 
