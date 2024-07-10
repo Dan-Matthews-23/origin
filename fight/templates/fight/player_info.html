@@ -6,27 +6,58 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row lg-padding">
+
         <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 lg-padding with-borders ">
             <div class="container-fluid left-grid with-borders">
                 <div class="row lg-padding">
                     <div class="col">
-                        <h1 class="title-table-header">{{ player_info.attack}}</h1>
+                        <h1 class="title-table-header">Target Information</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h3 class="standard-table-text">
+                            Your military advisors have prepared a summary based on what they know, but a full
+                            intelligence operation is needed to see everything
+                        </h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Target Name:</h3>
                     </div>
                     <div class="col">
-                        <h1 class="title-table-header">Faction</h1>
+                        <h3 class="standard-table-text">{{player_info.get_player_troops}}</h3>
+                    </div>
+                </div>
+
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Target Faction:</h3>
                     </div>
                     <div class="col">
-                        <h1 class="title-table-header">Status</h1>
+                        <h3 class="standard-table-text"></h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Target Rank:</h3>
                     </div>
                     <div class="col">
-                        <h1 class="title-table-header">Army Size</h1>
+                        <h3 class="standard-table-text"></h3>
+                    </div>
+                </div>
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Data Crystal Balance:</h3>
                     </div>
                     <div class="col">
-                        <h1 class="title-table-header">Available Data Crystals</h1>
+                        <h3 class="standard-table-text">{{player_info.data_crystal_balance}}</h3>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}
