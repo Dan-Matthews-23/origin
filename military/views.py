@@ -314,5 +314,26 @@ def trainTroops(request):
         return redirect('renderMilitary')           
     return redirect('renderMilitary')
 
+def calculate_total_troops(request, player_id):
+    target_profile = UserProfile.objects.get(id=player_id)
+    target_troops = Troops.objects.get(user_profile=target_profile)
+    
+    total_army = (
+        target_troops.weak_attack_troops + 
+        target_troops.strong_attack_troops + 
+        target_troops.elite_attack_troops + 
+        target_troops.weak_defence_troops + 
+        target_troops.strong_defence_troops + 
+        target_troops.elite_defence_troops + 
+        target_troops.weak_intel_troops + 
+        target_troops.strong_intel_troops + 
+        target_troops.elite_intel_troops + 
+        target_troops.income_specialists + 
+        target_troops.untrained_units       
+    )   
+    return total_army
+
+
+
 
 

@@ -4,6 +4,8 @@ from user_account.models import UserProfile
 from player_power.models import PlayerPower
 from military.models import Troops
 from production.models import Production
+from military.views import calculate_total_troops
+from django.db.models import Sum
 
 
 def check_intelligence(request, player_id):
@@ -25,6 +27,10 @@ def check_intelligence(request, player_id):
         higher_intel = False
     
     return higher_intel
+
+
+
+
 
 
 
@@ -85,7 +91,8 @@ def player_info(request, player_id):
     get_intel_status = check_intelligence(request, player_id)
     #print(get_intel_status)
 
-    if get_intel_status == True:    
+    if get_intel_status == True:
+        get_total_army = calculate_total_troops(request, player_id)    
         target_troops = {
             'weak_attack_troops': get_player_troops.weak_attack_troops, 
             'strong_attack_troops': get_player_troops.strong_attack_troops,
@@ -98,8 +105,13 @@ def player_info(request, player_id):
             'elite_intel_troops': get_player_troops.elite_intel_troops,
             'income_specialists':get_player_troops.income_specialists,
             'untrained_units':get_player_troops.untrained_units,
-            'get_player_troops': get_player_troops.weak_attack_troops,
-        }
+            'total_army': get_total_army,
+            }
+        
+       
+        
+
+
     else:
         target_troops = {
             'weak_attack_troops': "???", 
@@ -114,6 +126,7 @@ def player_info(request, player_id):
             'income_specialists': "???",
             'untrained_units': "???",
             'get_player_troops': "???",
+            'total_army': "???",
         }
 
     
