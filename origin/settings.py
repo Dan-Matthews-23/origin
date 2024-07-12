@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'faction_data',
     'player_power',
+    'turn_events',
 ]
     
 

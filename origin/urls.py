@@ -26,5 +26,6 @@ urlpatterns = [
     path('diplomacy/', include('diplomacy.urls')),
     path('fight/', include('fight.urls')),
     path('military/', include('military.urls')),
+    path('turn_events/', include('turn_events.urls')),
     
 ]

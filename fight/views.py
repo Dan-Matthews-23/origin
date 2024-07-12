@@ -38,6 +38,7 @@ def check_intelligence(request, player_id):
 
 
 def fight(request):
+    unknown = "Unknown"
     players = []
     player_data = {}
     profile = UserProfile.objects.get(user=request.user)
@@ -57,8 +58,8 @@ def fight(request):
                 player_troops = get_player_troops.weak_attack_troops
                 player_data_crystal_balance =  f"{get_player_production.data_crystal_balance:,}"
             else:
-                player_troops = "???"
-                player_data_crystal_balance = "???"           
+                player_troops = unknown
+                player_data_crystal_balance = unknown           
             
             player_data = {                
                 'username': player.user,
@@ -83,6 +84,7 @@ def fight(request):
 
 
 def player_info(request, player_id):
+    unknown = "Unknown"
     player = UserProfile.objects.get(id=player_id)    
     get_player_troops = Troops.objects.get(user_profile=player)
     get_player_power = PlayerPower.objects.get(user_profile=player)
@@ -106,6 +108,7 @@ def player_info(request, player_id):
             'income_specialists':get_player_troops.income_specialists,
             'untrained_units':get_player_troops.untrained_units,
             'total_army': get_total_army,
+            'data_crystal_balance': f"{get_player_production.data_crystal_balance:,}", 
             }
         
        
@@ -114,19 +117,20 @@ def player_info(request, player_id):
 
     else:
         target_troops = {
-            'weak_attack_troops': "???", 
-            'strong_attack_troops': "???",
-            'elite_attack_troops': "???",
-            'weak_defence_troops': "???",
-            'strong_defence_troops': "???",
-            'elite_defence_troops': "???",
-            'weak_intel_troops': "???",
-            'strong_intel_troops': "???",
-            'elite_intel_troops': "???",
-            'income_specialists': "???",
-            'untrained_units': "???",
-            'get_player_troops': "???",
-            'total_army': "???",
+            'weak_attack_troops': unknown, 
+            'strong_attack_troops': unknown,
+            'elite_attack_troops': unknown,
+            'weak_defence_troops': unknown,
+            'strong_defence_troops': unknown,
+            'elite_defence_troops': unknown,
+            'weak_intel_troops': unknown,
+            'strong_intel_troops': unknown,
+            'elite_intel_troops': unknown,
+            'income_specialists': unknown,
+            'untrained_units': unknown,
+            'get_player_troops': unknown,
+            'total_army': unknown,
+            'data_crystal_balance': unknown, 
         }
 
     
@@ -134,7 +138,7 @@ def player_info(request, player_id):
         'target_name': player.user,
         'target_faction': player.faction,        
         'get_player_power': get_player_power.attack,       
-        'data_crystal_balance': f"{get_player_production.data_crystal_balance:,}",  
+         
     }
 
     context = {'player_info': player_info, 'target_troops': target_troops}

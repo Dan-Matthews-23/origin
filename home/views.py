@@ -82,29 +82,6 @@ def overview(request):
     getPlayerPower = create_player_power_default(request)
     troops_object = create_troops_default(request)
     production_object = create_production_default(request)
-    
-    
-    
-    """try:
-        getPlayerPower = PlayerPower.objects.get(user_profile=profile)
-    except PlayerPower.DoesNotExist:
-        create_power = PlayerPower.objects.create(
-            user_profile=profile,
-            attack=0,
-            defence=0,
-            intel=0,
-            income=0,
-            attack_rank=0,
-            defence_rank=0,
-            income_rank=0,
-            overall_rank=0,
-        )
-        getPlayerPower = PlayerPower.objects.get(user_profile=profile) 
-    """
-
-
-
-
 
     context = {
         'render_attack' : getPlayerPower.attack,
