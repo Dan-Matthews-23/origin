@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'faction_data',
     'player_power',
     'turn_events',
+    'technology',
 ]
     
 
