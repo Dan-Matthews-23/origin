@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
 from django.contrib.auth.models import User
 from user_account.models import UserProfile
 from player_power.models import PlayerPower
@@ -6,6 +6,10 @@ from military.models import Troops
 from production.models import Production
 from military.views import calculate_total_troops
 from django.db.models import Sum
+import random
+from random import choice
+from django.conf import settings
+
 
 
 def check_intelligence(request, player_id):
@@ -136,14 +140,62 @@ def player_info(request, player_id):
     
     player_info = {
         'target_name': player.user,
-        'target_faction': player.faction,        
-        'get_player_power': get_player_power.attack,       
+        'target_faction': player.faction,
+        'player_id': player.id,        
+             
          
     }
 
     context = {'player_info': player_info, 'target_troops': target_troops}
 
     return render(request, 'fight/player_info.html', context)
+
+
+
+def biased_random_bool(true_bias):
+    num_true = int(true_bias * 10)  # Assuming a scale of 10 (adjust as needed)
+    num_false = 10 - num_true
+    boolean_options = [True] * num_true + [False] * num_false
+    return choice(boolean_options)
+
+
+
+
+
+
+def spy(request, player_id):
+    success = False
+    player = UserProfile.objects.get(id=player_id)
+    user = UserProfile.objects.get(user=request.user)
+
+    get_user_intel = PlayerPower.objects.get(user_profile=user)
+    get_player_intel = PlayerPower.objects.get(user_profile=player)
+
+    #If user intel is 50% or higher than target
+    fifty_percent_higher_player = ((get_player_intel.intel/100)*50)+get_player_intel.intel
+    twenty_five_percent_higher_player = ((get_player_intel.intel/100)*25)+get_player_intel.intel
+
+    if get_user_intel.intel >= fifty_percent_higher_player:
+        success = True
+        result = f"Your intel (of {get_user_intel.intel}) was at least fifty percent higher than the target (of {get_player_intel.intel}). The 50% target was {fifty_percent_higher_player}"
+    
+    elif get_user_intel.intel < fifty_percent_higher_player and get_user_intel.intel > twenty_five_percent_higher_player:
+        true_bias = settings.TRUE_BIAS_TWENTY_FIVE_PERCENT
+        success = biased_random_bool(true_bias)
+        result = f"Your intel (of {get_user_intel.intel}) was at least twenty-five percent higher than the target (of {get_player_intel.intel}).The 25% target was {twenty_five_percent_higher_player}"    
+    
+    else:
+        true_bias = settings.TRUE_BIAS_LESS_TWENTY_FIVE_PERCENT
+        success = biased_random_bool(true_bias)
+        result = f"Your intel (of {get_user_intel.intel}) was higher than the target (of {get_player_intel.intel})"
+
+    if success == True:
+        print(f"Battle is won! {result}.")
+    else:
+        print(f"Battle is lost! {result}")
+    
+    return redirect(request.META.get('HTTP_REFERER'))
+
 
 
     

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'player_power',
     'turn_events',
     'technology',
+    'reports',
 ]
     
 
@@ -177,3 +178,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 BASE_POP_INCREASE_COST = 2000
+TRUE_BIAS_TWENTY_FIVE_PERCENT = 0.7
+TRUE_BIAS_LESS_TWENTY_FIVE_PERCENT = 0.5
