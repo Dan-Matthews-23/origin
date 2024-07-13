@@ -9,6 +9,7 @@ from django.db.models import Sum
 import random
 from random import choice
 from django.conf import settings
+from reports.models import IntelLog
 
 
 
@@ -189,12 +190,43 @@ def spy(request, player_id):
         success = biased_random_bool(true_bias)
         result = f"Your intel (of {get_user_intel.intel}) was higher than the target (of {get_player_intel.intel})"
 
-    if success == True:
+    if success == True:        
         print(f"Battle is won! {result}.")
-    else:
+        create_log = IntelLog.objects.create(
+            result="Won",
+            defender_user_profile=player,
+            defender_intel=get_player_intel.intel,
+            defender_troops=0,
+            defender_technologies=0,
+            defender_bonus=0,
+            attacker_user_profile=user,
+            attacker_intel=get_user_intel.intel,
+            attacker_troops=0,
+            attacker_technologies=0,
+            attacker_bonus=0,
+            )
+
+    elif success == False:
         print(f"Battle is lost! {result}")
+        create_log = IntelLog.objects.create(
+            result="Lost",
+            defender_user_profile=player,
+            defender_intel=get_player_intel.intel,
+            defender_troops=0,
+            defender_technologies=0,
+            defender_bonus=0,
+            attacker_user_profile=user,
+            attacker_intel=get_user_intel.intel,
+            attacker_troops=0,
+            attacker_technologies=0,
+            attacker_bonus=0,
+            )
+    else:
+        messages.error("There was an error while carrying out this operation. Please try again")
+        return redirect(request.META.get('HTTP_REFERER'))
+
     
-    return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('reports')
 
 
 

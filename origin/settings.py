@@ -178,5 +178,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 BASE_POP_INCREASE_COST = 2000
+
+
+
+
+
+"""
+TRUE BIAS SETTINGS
+Calculated as:
+- If an attacker's intelligence power is at least 50% higher than the defender, the operation will always be a success
+- If an attacker's intelligence power is at least 25% higher than the defender, the operation has a 70% of being successfull
+- If an attacker's intelligence power is higher than the defender's, but less than 25% higher, the operation has a 50% of being successfull
+"""
 TRUE_BIAS_TWENTY_FIVE_PERCENT = 0.7
 TRUE_BIAS_LESS_TWENTY_FIVE_PERCENT = 0.5

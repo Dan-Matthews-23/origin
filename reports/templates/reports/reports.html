@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'military/css/military.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row lg-padding">
+
+        <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 lg-padding with-borders ">
+            <div class="container-fluid left-grid with-borders">
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h1 class="title-table-header">Intelligence Reports</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h3 class="standard-table-text">
+                            Your armed forces chiefs have compiled a list of recent intelligence reports
+                        </h3>
+                    </div>
+                </div>
+
+
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">Date</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="title-table-header">Attacker</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="title-table-header">Defender</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="title-table-header">Result</h3>
+                    </div>
+                </div>
+
+                {% for report in reports.offensive %}
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="title-table-header">{{report.date}}</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="title-table-header">{{report.attacker}}</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="title-table-header">{{report.defender}}</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="title-table-header">{{ report.result }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
