@@ -31,13 +31,15 @@ def production(request):
         increaseProjectionByThousandCostIncome = "{:,d}".format(getIncomeByThousand * settings.BASE_POP_INCREASE_COST)
 
         #Render Knowledge Points Growth       
-        knowledge_growth = production_object.knowledge_points       
+        knowledge_growth = production_object.knowledge_points_growth       
         getKnowledgeByTen = knowledge_growth + 10
         increaseProjectionByTenCostKnowledge = "{:,d}".format(getKnowledgeByTen * settings.BASE_POP_INCREASE_COST)
         getKnowledgeByHundred = knowledge_growth + 100
         increaseProjectionByHundredCostKnowledge = "{:,d}".format(getKnowledgeByHundred * settings.BASE_POP_INCREASE_COST)
         getKnowledgeByThousand = knowledge_growth + 1000
         increaseProjectionByThousandCostKnowledge = "{:,d}".format(getKnowledgeByThousand * settings.BASE_POP_INCREASE_COST)
+
+        currentKnowledgePoints = production_object.knowledge_points
     
     
     
@@ -45,12 +47,12 @@ def production(request):
         production_object = Production.objects.create(
             user_profile=profile,
             pop_growth=10,
-            knowledge_points=10,
+            knowledge_points_growth=10,
             income=10
         )
         pop_growth = production_object.pop_growth
         income_growth = production_object.income
-        knowledge_growth = production_object.knowledge_points
+        knowledge_growth = production_object.knowledge_points_growth
 
     troopNumbers = getTroopNumbers(request)
     
@@ -63,6 +65,7 @@ def production(request):
         'increaseProjectionByHundred': increaseProjectionByHundredCost,
         'getPopGrowthByThousand': getPopGrowthByThousand,
         'increaseProjectionByThousand': increaseProjectionByThousandCost,        
+        
         'getIncomeGrowth': income_growth,
         'getIncomeByTen': getIncomeByTen,
         'increaseProjectionByTenIncome': increaseProjectionByTenCostIncome,
@@ -70,6 +73,7 @@ def production(request):
         'increaseProjectionByHundredIncome': increaseProjectionByHundredCostIncome,
         'getIncomeByThousand': getIncomeByThousand,
         'increaseProjectionByThousandIncome': increaseProjectionByThousandCostIncome,
+        
         'getKnowledgeGrowth': knowledge_growth,
         'getKnowledgeByTen': getKnowledgeByTen,
         'increaseProjectionByTenKnowledge': increaseProjectionByTenCostKnowledge,
@@ -77,6 +81,9 @@ def production(request):
         'increaseProjectionByHundredKnowledge': increaseProjectionByHundredCostKnowledge,
         'getKnowledgeByThousand': getKnowledgeByThousand,
         'increaseProjectionByThousandKnowledge': increaseProjectionByThousandCostKnowledge,
+
+        'currentKnowledgePoints': currentKnowledgePoints,
+        
         'troopNumbers': troopNumbers,
     }
     return render(request, 'production/production.html', context)
@@ -163,9 +170,9 @@ def increaseKnowledge(request):
         if growth_amount:
             profile = request.user.userprofile
             production_object = Production.objects.get(user_profile=profile)
-            growth_cost = ((production_object.knowledge_points + growth_amount) * base_cost)
+            growth_cost = ((production_object.knowledge_points_growth + growth_amount) * base_cost)
             if production_object.data_crystal_balance >= growth_cost:
-                production_object.knowledge_points += growth_amount
+                production_object.knowledge_points_growth += growth_amount
                 production_object.data_crystal_balance -= growth_cost
                 production_object.save()
                 messages.success(request, 'Knowledge point production increased.')                
