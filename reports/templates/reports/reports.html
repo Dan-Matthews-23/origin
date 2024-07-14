@@ -39,20 +39,30 @@
                 </div>
 
                 {% for report in reports.offensive %}
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">{{report.date}}</h3>
+                <form method="POST" action="{% url 'report_detail' report.report_id %}">
+                    {% csrf_token %}
+
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="title-table-header">{{report.date}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="title-table-header">{{report.attacker}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="title-table-header">{{report.defender}}</h3>
+                        </div>
+                        <div class="col">
+                            <h3 class="title-table-header">{{ report.result }}</h3>
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="submit-btn-black" name="view_report">
+
+                                View Report
+                            </button>
+                        </div>
                     </div>
-                    <div class="col">
-                        <h3 class="title-table-header">{{report.attacker}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="title-table-header">{{report.defender}}</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="title-table-header">{{ report.result }}</h3>
-                    </div>
-                </div>
+                </form>
                 {% endfor %}
             </div>
         </div>

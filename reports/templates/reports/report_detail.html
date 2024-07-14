@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'military/css/military.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row lg-padding">
+
+        <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 lg-padding with-borders ">
+            <div class="container-fluid left-grid with-borders">
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h1 class="title-table-header">Report Detail</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h3 class="standard-table-text">
+                            Your armed forces chiefs have compiled a list of recent intelligence reports
+                        </h3>
+                    </div>
+                </div>
+
+
+                <div class="row lg-padding">
+                    <div class="col">
+                        <table class="mission-report-table">
+                            <th class="title" colspan="2">
+                                Mission Report
+                            </th>
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    <strong>To:</strong>
+                                </td>
+                                <td class="mission-report-cell">
+                                    {{request.user.username}}
+                                </td>
+                            </tr>
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    <strong>From:</strong>
+                                </td>
+                                <td class="mission-report-cell">
+                                    Colonel Jack O'Neill Greaves
+                                </td>
+                            </tr>
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    <strong>Subject:</strong>
+                                </td>
+                                <td class="mission-report-cell">
+                                    Covert Reconnaissance
+                                </td>
+                            </tr>
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    <strong>Date of operation:</strong>
+                                </td>
+                                <td class="mission-report-cell">
+                                    {{report_details.date}}
+                                </td>
+                            </tr>
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    <strong>Target:</strong>
+                                </td>
+                                <td class="mission-report-cell">
+                                    {{report_details.defender}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row lg-padding">
+                    <div class="col">
+                        <table class="mission-report-table">
+
+
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    I was ordered to take my team behind enemy lines to secure vital intelligence on the
+                                    enemy's infastructure, specifically offensive, defensive, intelligence and economic
+                                    capabilities.
+                                </td>
+                            </tr>
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    At approximetly {{report_details.date}}, we sucessfully infiltrated primary and
+                                    secondary targets and relayed the intelligence back to headquarters
+                                </td>
+                            </tr>
+                            {% if report_details.loss %}
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    While attempting to gain intelligence as ordered, my team were exposed, and a
+                                    firefight ensued. We returned fire in defence, however {{report_details.casualties}}
+                                    of my team were hit by enemy fire and were killed in action
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    My team and I were able to secure intelligence without being exposed
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -11,6 +11,8 @@ RESULT_CHOICES = (
 )
 
 class IntelLog(models.Model):
+    report_id = models.AutoField(primary_key=True, blank=False, null=False)
+    date = models.DateTimeField(auto_now_add=True)
     result = models.CharField(max_length=20, choices=RESULT_CHOICES)
     defender_user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL,
                                      null=True, blank=True,

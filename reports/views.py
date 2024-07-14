@@ -25,6 +25,8 @@ def reports(request):
     reports = {
         'offensive': [
             {
+                'report_id': report.report_id,
+                'date': report.date,
                 'result': report.result,
                 'attacker_intel': report.attacker_intel,
                 'attacker_troops': report.attacker_troops,
@@ -37,6 +39,8 @@ def reports(request):
         ],
         'defensive': [
             {
+                'report_id': report.report_id,
+                'date': report.date,
                 'result': report.result,
                 'defender_intel': report.defender_intel,
                 'defender_troops': report.defender_troops,
@@ -67,5 +71,19 @@ def reports(request):
 
 
 
-def report_detail(request):
-    do_this = False
+def report_detail(request, report_id):    
+    get_report = IntelLog.objects.get(report_id=report_id)
+    attacker = get_report.attacker_user_profile.user
+    defender = get_report.defender_user_profile.user
+    
+    report_details = {
+        'report_id': get_report.report_id,
+        'date': get_report.date,
+        'attacker': attacker,
+        'defender': defender,
+
+    } 
+    print(report_details)
+
+    context = {'report_details': report_details}
+    return render(request, 'reports/report_detail.html', context)

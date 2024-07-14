@@ -6,6 +6,8 @@ from .models import IntelLog
 
 class IntelLogAdmin(admin.ModelAdmin):    
     fields = (
+        'report_id',
+        'date',
         'result', 
         'defender_user_profile', 
         'defender_intel',
@@ -21,6 +23,8 @@ class IntelLogAdmin(admin.ModelAdmin):
         )
         
     list_display = (
+        'report_id',
+        'date',
         'result', 
         'defender_user_profile', 
         'defender_intel',
