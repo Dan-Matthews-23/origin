@@ -186,7 +186,7 @@ def spy(request, player_id):
     fifty_percent_lower_player = get_player_intel.intel - ((get_player_intel.intel/100)*50)  
     twenty_five_percent_lower_player = get_player_intel.intel - ((get_player_intel.intel/100)*25)
 
-    print(f"User intel is {get_user_intel.intel}. Target intel is {get_player_intel.intel}. That means target intel 50% lower is expected to be 1000, and 25% lower is expected to be 1500. Actual results are: 50%: {fifty_percent_lower_player}, 25%: {twenty_five_percent_lower_player}")
+    print(f"Expected User intel is 1000. Actual is {get_user_intel.intel}. Expected Target intel is 2000. Actual is {get_player_intel.intel}. Expected 50% lower is 1000. Actual is {fifty_percent_lower_player}. Expected 25% lower is 1500. Actual is {twenty_five_percent_lower_player}")
 
     if get_user_intel.intel >= fifty_percent_higher_player:
         success = True
@@ -221,7 +221,8 @@ def spy(request, player_id):
         defender_loss_strong = (settings.BASE_INTEL_LOSS_VICTORY * get_player_intel_troops.strong_intel_troops)
         defender_loss_elite = (settings.BASE_INTEL_LOSS_VICTORY * get_player_intel_troops.elite_intel_troops)
 
-    elif get_user_intel.intel <= fifty_percent_lower_player:        
+    elif get_user_intel.intel <= fifty_percent_lower_player:
+        print(f"Overwhelming Loss. Expected User intel is 1000. Actual is {get_user_intel.intel}. Expected Target intel is 2000. Actual is {get_player_intel.intel}. Expected 50% lower is 1000. Actual is {fifty_percent_lower_player}. Expected 25% lower is 1500. Actual is {twenty_five_percent_lower_player}")
         success = False
         result = "Overwhelming Loss"
         attacker_loss_weak = (settings.BASE_INTEL_LOSS_DEFEAT_OVERWHELMING * get_user_intel_troops.weak_intel_troops)
@@ -232,7 +233,7 @@ def spy(request, player_id):
         defender_loss_strong = (settings.BASE_INTEL_LOSS_DEFEAT_OVERWHELMING * get_player_intel_troops.strong_intel_troops)
         defender_loss_elite = (settings.BASE_INTEL_LOSS_DEFEAT_OVERWHELMING * get_player_intel_troops.elite_intel_troops)
 
-    elif get_user_intel.intel > fifty_percent_lower_player and get_user_intel.intel < twenty_five_percent_lower_player:
+    elif get_user_intel.intel > fifty_percent_lower_player and get_user_intel.intel <= twenty_five_percent_lower_player:
         success = False
         result = "Clear Loss"
         attacker_loss_weak = (settings.BASE_INTEL_LOSS_DEFEAT_CLEAR * get_user_intel_troops.weak_intel_troops)
@@ -242,7 +243,7 @@ def spy(request, player_id):
         defender_loss_strong = (settings.BASE_INTEL_LOSS_DEFEAT_CLEAR * get_player_intel_troops.strong_intel_troops)
         defender_loss_elite = (settings.BASE_INTEL_LOSS_DEFEAT_CLEAR * get_player_intel_troops.elite_intel_troops)
     
-    elif get_user_intel.intel < get_player_intel.intel and get_user_intel.intel > twenty_five_percent_lower_player:
+    elif get_user_intel.intel <= get_player_intel.intel and get_user_intel.intel > twenty_five_percent_lower_player:
         success = False
         result = "Loss"
         attacker_loss_weak = (settings.BASE_INTEL_LOSS_DEFEAT_LOSS * get_user_intel_troops.weak_intel_troops)
@@ -252,7 +253,7 @@ def spy(request, player_id):
         defender_loss_strong = (settings.BASE_INTEL_LOSS_DEFEAT_LOSS * get_player_intel_troops.strong_intel_troops)
         defender_loss_elite = (settings.BASE_INTEL_LOSS_DEFEAT_LOSS * get_player_intel_troops.elite_intel_troops)        
     else:
-        messages.error(request, f"The calculations did not work. Actual user intel is {get_user_intel.intel} and target actual is {get_player_intel.intel}. Expected was 1500 and 2000. The expected fifty_lower was 1000. Actual is {fifty_percent_lower_player}. The expected 25_lower was 1500. Actual is {twenty_five_percent_lower_player}.")
+        messages.error(request, f"There was an error while performing this action. This has been logged to the admins.")
         return redirect(request.META.get('HTTP_REFERER'))    
     if success == False:       
         create_log = IntelLog.objects.create(
@@ -288,7 +289,7 @@ def spy(request, player_id):
                 ) 
     elif success == True:
         print("True")        
-        """create_log = IntelLog.objects.create(
+        create_log = IntelLog.objects.create(
             result=result,
             defender_user_profile=player,
             defender_intel=get_player_intel.intel,
@@ -318,7 +319,7 @@ def spy(request, player_id):
             defender_elite_intel_troops = get_player_intel_troops.elite_intel_troops,
             defender_income_specialists = get_player_intel_troops.income_specialists,
             defender_untrained_units = get_player_intel_troops.untrained_units,
-                )"""
+                )
         
     get_user_intel_troops.weak_intel_troops = (get_user_intel_troops.weak_intel_troops - attacker_loss_weak)
     get_user_intel_troops.strong_intel_troops = (get_user_intel_troops.strong_intel_troops - attacker_loss_strong)
