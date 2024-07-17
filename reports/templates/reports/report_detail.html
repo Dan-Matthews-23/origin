@@ -76,8 +76,7 @@
                 <div class="row lg-padding">
                     <div class="col">
                         <table class="mission-report-table">
-
-
+                            {% if report_details.attacker == request.user.username %}
                             <tr class="mission-report-row">
                                 <td class="mission-report-cell">
                                     I was ordered to take my team behind enemy lines to secure vital intelligence on the
@@ -85,6 +84,7 @@
                                     capabilities.
                                 </td>
                             </tr>
+                            {% endif %}
                             <tr class="mission-report-row">
                                 <td class="mission-report-cell">
                                     At approximetly {{report_details.date}}, we sucessfully infiltrated primary and
@@ -109,12 +109,47 @@
                         </table>
                     </div>
                 </div>
-
-
-
-
-
-
+                <div class="row lg-padding">
+                    <div class="col">
+                        <table class="mission-report-table">
+                            <th class="title" colspan="2">
+                                {{report_details.defender}}'s Power
+                            </th>
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    <strong>Attack Power:</strong>
+                                </td>
+                                <td class="mission-report-cell">
+                                    {{report_details.target_attack}}
+                                </td>
+                            </tr>
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    <strong>Defence Power:</strong>
+                                </td>
+                                <td class="mission-report-cell">
+                                    {{report_details.target_defence}}
+                                </td>
+                            </tr>
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    <strong>Intel Power:</strong>
+                                </td>
+                                <td class="mission-report-cell">
+                                    {{report_details.target_intel}}
+                                </td>
+                            </tr>
+                            <tr class="mission-report-row">
+                                <td class="mission-report-cell">
+                                    <strong>Income Power:</strong>
+                                </td>
+                                <td class="mission-report-cell">
+                                    {{report_details.target_income}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -79,8 +79,12 @@ def report_detail(request, report_id):
     report_details = {
         'report_id': get_report.report_id,
         'date': get_report.date,
-        'attacker': attacker,
-        'defender': defender,
+        'attacker': attacker.username,
+        'defender': defender.username,
+        'target_attack': get_report.defender_attack_power,
+        'target_defence': get_report.defender_defence_power,
+        'target_intel': get_report.defender_intel_power,
+        'target_income': get_report.defender_income_power,
 
     } 
     print(report_details)
