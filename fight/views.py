@@ -10,6 +10,7 @@ import random
 from random import choice
 from django.conf import settings
 from reports.models import IntelLog
+from django.contrib import messages
 
 
 
@@ -251,7 +252,7 @@ def spy(request, player_id):
         defender_loss_strong = (settings.BASE_INTEL_LOSS_DEFEAT_LOSS * get_player_intel_troops.strong_intel_troops)
         defender_loss_elite = (settings.BASE_INTEL_LOSS_DEFEAT_LOSS * get_player_intel_troops.elite_intel_troops)        
     else:
-        messages.error("There was an error while carrying out this operation. Please try again")
+        messages.error(request, f"The calculations did not work. Actual user intel is {get_user_intel.intel} and target actual is {get_player_intel.intel}. Expected was 1500 and 2000. The expected fifty_lower was 1000. Actual is {fifty_percent_lower_player}. The expected 25_lower was 1500. Actual is {twenty_five_percent_lower_player}.")
         return redirect(request.META.get('HTTP_REFERER'))    
     if success == False:       
         create_log = IntelLog.objects.create(
