@@ -114,16 +114,19 @@
                         </div>
                     </div>
                 </form>
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="standard-table-text">
-                            <button type="submit" class="submit-btn-black" name="attack">
-                                <i class="fa-solid fa-jet-fighter-up"></i>
-                                Launch attack
-                            </button>
-                        </h3>
+                <form method="POST" action="{% url 'attack' player_info.player_id %}">
+                    {% csrf_token %}
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <button type="submit" class="submit-btn-black" name="attack">
+                                    <i class="fa-solid fa-jet-fighter-up"></i>
+                                    Launch attack
+                                </button>
+                            </h3>
+                        </div>
                     </div>
-                </div>
+                </form>
 
 
             </div>

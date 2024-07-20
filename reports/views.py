@@ -35,7 +35,7 @@ def reports(request):
                 'attacker': "You",
                 'defender': report.defender_user_profile.user,
             }
-            for report in reports_query.filter(attacker_user_profile=profile)
+            for report in reports_query.filter(attacker_user_profile=profile).order_by('-date')
         ],
         'defensive': [
             {
@@ -48,7 +48,7 @@ def reports(request):
                 'defender_bonus': report.defender_bonus,
                 'defender': defender_user_profile,
             }
-            for report in reports_query.filter(defender_user_profile=profile)
+            for report in reports_query.filter(defender_user_profile=profile).order_by('-date')
         ],
     }
 

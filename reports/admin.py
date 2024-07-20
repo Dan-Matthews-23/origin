@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 
-from .models import IntelLog
+from .models import IntelLog, AttackLog
 
 
 class IntelLogAdmin(admin.ModelAdmin):    
@@ -74,4 +74,49 @@ class IntelLogAdmin(admin.ModelAdmin):
         )
 admin.site.register(IntelLog, IntelLogAdmin)
 
+class AttackLogAdmin(admin.ModelAdmin):    
+    fields = (
+    'report_id', 
+    'date', 
+    'result',
+    'defender_user_profile',                                    
+    'attacker_user_profile',
+    'attacker_t1_loss',
+    'attacker_t2_loss',
+    'attacker_t3_loss',
+    'defender_t1_loss',
+    'defender_t2_loss',
+    'defender_t3_loss',
+    'attacker_t1_count',
+    'attacker_t2_count',
+    'attacker_t3_count',
+    'defender_t1_count',
+    'defender_t2_count',
+    'defender_t3_count',
+    'attacker_attack_snap',
+    'defender_defence_snap',
+        )
+        
+    list_display = (
+        'report_id', 
+    'date', 
+    'result',
+    'defender_user_profile',                                    
+    'attacker_user_profile',
+    'attacker_t1_loss',
+    'attacker_t2_loss',
+    'attacker_t3_loss',
+    'defender_t1_loss',
+    'defender_t2_loss',
+    'defender_t3_loss',
+    'attacker_t1_count',
+    'attacker_t2_count',
+    'attacker_t3_count',
+    'defender_t1_count',
+    'defender_t2_count',
+    'defender_t3_count',
+    'attacker_attack_snap',
+    'defender_defence_snap',  
+        )
+admin.site.register(AttackLog, AttackLogAdmin)
 

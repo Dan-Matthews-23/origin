@@ -5,8 +5,8 @@ from user_account.models import UserProfile
 from faction_data.models import TroopAttributes
 from .models import PlayerPower
 
-def calculate_attack(request):
-    profile = UserProfile.objects.get(user=request.user)
+def calculate_attack(requestl, player_id):
+    profile = UserProfile.objects.get(id=player_id)
     troops = Troops.objects.get(user_profile=profile)
     total_attack_power = (
         troops.weak_attack_troops * TroopAttributes.objects.get().attack_tier_one_power +
@@ -31,8 +31,8 @@ def calculate_attack(request):
 
 
 
-def calculate_defence(request):
-    profile = UserProfile.objects.get(user=request.user)
+def calculate_defence(request, player_id):
+    profile = UserProfile.objects.get(id=player_id)
     troops = Troops.objects.get(user_profile=profile)
     total_defence_power = (
         troops.weak_defence_troops * TroopAttributes.objects.get().defence_tier_one_power +
