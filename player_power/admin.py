@@ -4,6 +4,7 @@ from .models import PlayerPower
 
 class PlayerPowerAdmin(admin.ModelAdmin):    
     fields = (
+        'user_profile',
         'attack', 
         'defence', 
         'intel',
@@ -16,6 +17,7 @@ class PlayerPowerAdmin(admin.ModelAdmin):
         )
         
     list_display = (
+        'user_profile',
         'attack', 
         'defence', 
         'intel',

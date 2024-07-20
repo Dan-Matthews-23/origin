@@ -9,51 +9,34 @@ from django.db.models import Sum, Q
 import random
 from random import choice
 from django.conf import settings
-from reports.models import IntelLog
+from reports.models import IntelLog, AttackLog
 
-from django.shortcuts import render
+from rest_framework import serializers
+from .models import IntelLog  # Assuming IntelLog is your model
 
-def reports(request):
+class ReportSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')  # Specify the desired format
+    attacker = serializers.CharField(source='attacker_user_profile.user')
+    defender = serializers.CharField(source='defender_user_profile.user')
+
+    class Meta:
+        model = IntelLog
+        fields = '__all__'  # Include all fields or specify the desired ones
+
+def intel_reports(request):
     profile = UserProfile.objects.get(user=request.user)
+    offensive_reports = ReportSerializer(IntelLog.objects.filter(attacker_user_profile=profile), many=True)
+    defensive_reports = ReportSerializer(IntelLog.objects.filter(defender_user_profile=profile), many=True)
+    context = {'offensive_reports': offensive_reports.data, 'defensive_reports': defensive_reports.data}
+    return render(request, 'reports/intel_reports.html', context)
 
-    # Efficiently filter IntelLogs for both offensive and defensive reports
-    reports_query = IntelLog.objects.filter(
-        Q(attacker_user_profile=profile) | Q(defender_user_profile=profile)
-    ).select_related('attacker_user_profile', 'defender_user_profile')  # Optimize for related fields
 
-    # Extract report data with concise dictionary comprehension
-    reports = {
-        'offensive': [
-            {
-                'report_id': report.report_id,
-                'date': report.date,
-                'result': report.result,
-                'attacker_intel': report.attacker_intel,
-                'attacker_troops': report.attacker_troops,
-                'attacker_technologies': report.attacker_technologies,
-                'attacker_bonus': report.attacker_bonus,
-                'attacker': "You",
-                'defender': report.defender_user_profile.user,
-            }
-            for report in reports_query.filter(attacker_user_profile=profile).order_by('-date')
-        ],
-        'defensive': [
-            {
-                'report_id': report.report_id,
-                'date': report.date,
-                'result': report.result,
-                'defender_intel': report.defender_intel,
-                'defender_troops': report.defender_troops,
-                'defender_technologies': report.defender_technologies,
-                'defender_bonus': report.defender_bonus,
-                'defender': defender_user_profile,
-            }
-            for report in reports_query.filter(defender_user_profile=profile).order_by('-date')
-        ],
-    }
-
-    context = {'reports': reports}
-    return render(request, 'reports/reports.html', context)
+def attack_reports(request):
+    profile = UserProfile.objects.get(user=request.user)
+    offensive_reports = ReportSerializer(AttackLog.objects.filter(attacker_user_profile=profile), many=True)
+    defensive_reports = ReportSerializer(AttackLog.objects.filter(defender_user_profile=profile), many=True)
+    context = {'offensive_reports': offensive_reports.data, 'defensive_reports': defensive_reports.data}
+    return render(request, 'reports/attack_reports.html', context)
 
 
 
@@ -71,7 +54,13 @@ def reports(request):
 
 
 
-def report_detail(request, report_id):    
+
+
+
+
+
+
+def intel_report_detail(request, report_id):    
     get_report = IntelLog.objects.get(report_id=report_id)
     attacker = get_report.attacker_user_profile.user
     defender = get_report.defender_user_profile.user
@@ -90,4 +79,38 @@ def report_detail(request, report_id):
     print(report_details)
 
     context = {'report_details': report_details}
-    return render(request, 'reports/report_detail.html', context)
+    return render(request, 'reports/intel_report_detail.html', context)
+
+
+def attack_report_detail(request, report_id):    
+    get_report = AttackLog.objects.get(report_id=report_id)
+    attacker = get_report.attacker_user_profile.user
+    defender = get_report.defender_user_profile.user
+    
+    report_details = {
+        'report_id': get_report.report_id,
+        'date': get_report.date,
+        'result': get_report.result,
+        'defender_user_profile': get_report.defender_user_profile.user,   
+        'attacker_user_profile': get_report.attacker_user_profile.user,
+        'attacker_t1_loss': get_report.attacker_t1_loss,
+        'attacker_t2_loss': get_report.attacker_t2_loss,
+        'attacker_t3_loss': get_report.attacker_t3_loss,
+        'defender_t1_loss': get_report.defender_t1_loss,
+        'defender_t2_loss': get_report.defender_t2_loss,
+        'defender_t3_loss': get_report.defender_t3_loss,
+        'attacker_t1_count': get_report.attacker_t1_count,
+        'attacker_t2_count': get_report.attacker_t2_count,
+        'attacker_t3_count': get_report.attacker_t3_count,
+        'defender_t1_count': get_report.defender_t1_count,
+        'defender_t2_count': get_report.defender_t2_count,
+        'defender_t3_count': get_report.defender_t3_count,
+        'attacker_attack_snap': get_report.attacker_attack_snap,
+        'defender_defence_snap': get_report.defender_defence_snap,
+        'data_crystal_gain': get_report.data_crystal_gain, 
+
+    } 
+    
+
+    context = {'report_details': report_details}
+    return render(request, 'reports/intel_report_detail.html', context)

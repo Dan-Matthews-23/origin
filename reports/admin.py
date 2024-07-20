@@ -95,6 +95,7 @@ class AttackLogAdmin(admin.ModelAdmin):
     'defender_t3_count',
     'attacker_attack_snap',
     'defender_defence_snap',
+    'data_crystal_gain',
         )
         
     list_display = (
@@ -116,7 +117,8 @@ class AttackLogAdmin(admin.ModelAdmin):
     'defender_t2_count',
     'defender_t3_count',
     'attacker_attack_snap',
-    'defender_defence_snap',  
+    'defender_defence_snap',
+    'data_crystal_gain',  
         )
 admin.site.register(AttackLog, AttackLogAdmin)
 

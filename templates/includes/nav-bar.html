@@ -15,9 +15,31 @@
                    <li class="nav-item">
                        <a class="nav-link-font" href="{% url 'production' %}">Production</a>
                    </li>
-                   <li class="nav-item">
-                       <a class="nav-link-font" href="{% url 'renderMilitary' %}">Military Forces</a>
+
+                   <li class="nav-item dropdown">
+                       <a class="nav-link-font dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           Military
+                       </a>
+                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                           {% if request.user.is_authenticated %}
+                           <a class="dropdown-item" href="{% url 'renderMilitary' %}">Train Troops</a>
+                           <a class="dropdown-item" href="{% url 'attack_reports' %}">Attack Reports</a>
+                           <a class="dropdown-item" href="{% url 'intel_reports' %}">Intel Reports</a>
+                       </div>
                    </li>
+                   {% endif %}
+
+
+
+
+
+
+
+
+
+
+
                    <li class="nav-item">
                        <a class="nav-link-font" href="{% url 'diplomacy' %}">Diplomacy</a>
                    </li>
@@ -25,6 +47,8 @@
                        <a class="nav-link-font" href="{% url 'fight' %}">Fight!</a>
                    </li>
                    {% endif %}
+
+
 
 
                    <li class="nav-item dropdown">
@@ -51,9 +75,9 @@
                            <a class="dropdown-item" href="#">How to play</a>
                            <a class="dropdown-item" href="#">Terms of Service</a>
                            <a class="dropdown-item" href="#">{{ active_user_count }} players online!</a>
-
                        </div>
                    </li>
+
                </ul>
            </div>
        </nav>

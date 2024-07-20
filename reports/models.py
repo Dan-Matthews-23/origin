@@ -81,6 +81,7 @@ class AttackLog(models.Model):
     defender_t3_count = models.IntegerField(null=False, blank=False, default=10)
     attacker_attack_snap = models.IntegerField(null=False, blank=False, default=10)
     defender_defence_snap = models.IntegerField(null=False, blank=False, default=10)
+    data_crystal_gain = models.IntegerField(null=False, blank=False, default=10)
 
     
    

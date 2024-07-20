@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from .models import Production  
+from .models import Production, UserProfile
 
 
 class ProductionAdmin(admin.ModelAdmin):    
