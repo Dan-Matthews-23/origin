@@ -262,7 +262,16 @@ def calculate_overwhelming_victory(request, player_id, attack_type):
         
 
 def calculate_clear_victory(request, player_id, attack_type):
-    player = UserProfile.objects.get(id=player_id)
+    player = get_player(request, player_id)
+    user = get_user(request)
+
+    get_user_troops = return_troops(request, user)
+    get_target_troops = return_troops(request, player)
+
+    get_user_power = return_power(request, user)
+    get_target_power = return_power(request, player)
+
+    get_production_object = production_object(request, player)
     success = True
     attacker_result = "Overwhelming Victory"
     defender_result = "Overwhelming Defeat"
@@ -282,29 +291,60 @@ def calculate_clear_victory(request, player_id, attack_type):
         return success, attacker_result, defender_result, attacker_loss_weak, attacker_loss_strong, attacker_loss_elite, defender_loss_weak, defender_loss_strong, defender_loss_elite
     
     elif attack_type == "Attack":
-        get_target_power = PlayerPower.objects.get(user_profile=player)
-        get_user_power = PlayerPower.objects.get(user_profile=request.user)
+        player = get_player(request, player_id)
+        user = get_user(request)
+
+        get_user_troops = return_troops(request, user)
+        get_target_troops = return_troops(request, player)
+
+        get_user_power = return_power(request, user)
+        get_target_power = return_power(request, player)
+
+        get_production_object = production_object(request, player)
 
         true_bias = settings.TRUE_BIAS_TWENTY_FIVE_PERCENT
         success = biased_random_bool(true_bias)
         attacker_result = "Clear Victory"
         defender_result = "Clear Defeat"
 
-        data_crystal_gain = ((player_data_crystal_balance.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_CLEAR_SUCCESS_ATTACK)
+        data_crystal_gain = ((get_production_object.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_CLEAR_SUCCESS_ATTACK)
 
-        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * attacker_troops.weak_attack_troops)
-        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * attacker_troops.strong_attack_troops)
-        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * attacker_troops.elite_attack_troops)
+        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_user_troops.weak_attack_troops)
+        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_user_troops.strong_attack_troops)
+        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_user_troops.elite_attack_troops)
 
-        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * defender_troops.weak_defence_troops)
-        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * defender_troops.strong_defence_troops)
-        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * defender_troops.elite_defence_troops)
+        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_target_troops.weak_defence_troops)
+        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_target_troops.strong_defence_troops)
+        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_target_troops.elite_defence_troops)
+        results = {
+            'get_target_power': get_target_power,
+            'get_user_power': get_user_power,
+            'success': success,
+            'attacker_result': attacker_result,
+            'defender_result': defender_result,
+            'data_crystal_gain': data_crystal_gain,
+            'attacker_loss_weak': attacker_loss_weak,
+            'attacker_loss_strong': attacker_loss_strong,
+            'attacker_loss_elite': attacker_loss_elite,
+            'defender_loss_weak': defender_loss_weak,
+            'defender_loss_strong': defender_loss_strong,
+            'defender_loss_elite': defender_loss_elite,
+        }
+        return results
 
-        return get_target_power, get_user_power, success, attacker_result, defender_result, data_crystal_gain, attacker_loss_weak, attacker_loss_strong, attacker_loss_elite, defender_loss_weak, defender_loss_strong, defender_loss_elite, true_bias
-
+        
 
 def calculate_narrow_victory(request, player_id, attack_type):
-    player = UserProfile.objects.get(id=player_id)
+    player = get_player(request, player_id)
+    user = get_user(request)
+
+    get_user_troops = return_troops(request, user)
+    get_target_troops = return_troops(request, player)
+
+    get_user_power = return_power(request, user)
+    get_target_power = return_power(request, player)
+
+    get_production_object = production_object(request, player)
     success = True
     attacker_result = "Overwhelming Victory"
     defender_result = "Overwhelming Defeat"
@@ -321,28 +361,54 @@ def calculate_narrow_victory(request, player_id, attack_type):
         defender_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.strong_intel_troops)
         defender_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.elite_intel_troops)
 
-        return success, attacker_result, defender_result, attacker_loss_weak, attacker_loss_strong, attacker_loss_elite, defender_loss_weak, defender_loss_strong, defender_loss_elite
+        results = {
+            'get_target_power': get_target_power,
+            'get_user_power': get_user_power,
+            'success': success,
+            'attacker_result': attacker_result,
+            'defender_result': defender_result,
+            'data_crystal_gain': data_crystal_gain,
+            'attacker_loss_weak': attacker_loss_weak,
+            'attacker_loss_strong': attacker_loss_strong,
+            'attacker_loss_elite': attacker_loss_elite,
+            'defender_loss_weak': defender_loss_weak,
+            'defender_loss_strong': defender_loss_strong,
+            'defender_loss_elite': defender_loss_elite,
+        }
+        return results
     
-    elif attack_type == "Attack":
-        get_target_power = PlayerPower.objects.get(user_profile=player)
-        get_user_power = PlayerPower.objects.get(user_profile=request.user)
+    elif attack_type == "Attack":      
 
         true_bias = settings.TRUE_BIAS_LESS_TWENTY_FIVE_PERCENT
         success = biased_random_bool(true_bias)
         attacker_result = "Victory"
         defender_result = "Defeat"
 
-        data_crystal_gain = ((player_data_crystal_balance.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_NARROW_SUCCESS_ATTACK)
+        data_crystal_gain = ((get_production_object.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_NARROW_SUCCESS_ATTACK)
 
-        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * attacker_troops.weak_attack_troops)
-        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * attacker_troops.strong_attack_troops)
-        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * attacker_troops.elite_attack_troops)
+        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_user_troops.weak_attack_troops)
+        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_user_troops.strong_attack_troops)
+        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_user_troops.elite_attack_troops)
 
-        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_NARROW_SUCCESS_ATTACK * defender_troops.weak_defence_troops)
-        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_NARROW_SUCCESS_ATTACK * defender_troops.strong_defence_troops)
-        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_NARROW_SUCCESS_ATTACK * defender_troops.elite_defence_troops)
+        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_target_troops.weak_defence_troops)
+        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_target_troops.strong_defence_troops)
+        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_target_troops.elite_defence_troops)
 
-        return get_target_power, get_user_power, success, attacker_result, defender_result, data_crystal_gain, attacker_loss_weak, attacker_loss_strong, attacker_loss_elite, defender_loss_weak, defender_loss_strong, defender_loss_elite, true_bias
+        results = {
+            'get_target_power': get_target_power,
+            'get_user_power': get_user_power,
+            'success': success,
+            'attacker_result': attacker_result,
+            'defender_result': defender_result,
+            'data_crystal_gain': data_crystal_gain,
+            'attacker_loss_weak': attacker_loss_weak,
+            'attacker_loss_strong': attacker_loss_strong,
+            'attacker_loss_elite': attacker_loss_elite,
+            'defender_loss_weak': defender_loss_weak,
+            'defender_loss_strong': defender_loss_strong,
+            'defender_loss_elite': defender_loss_elite,
+        }
+        return results
 
 
 def calculate_overwhelming_defeat(request, player_id, attack_type):
@@ -415,7 +481,16 @@ def return_defender_result(results):
     
 
 def calculate_clear_defeat(request, player_id, attack_type):
-    player = UserProfile.objects.get(id=player_id)
+    player = get_player(request, player_id)
+    user = get_user(request)
+
+    get_user_troops = return_troops(request, user)
+    get_target_troops = return_troops(request, player)
+
+    get_user_power = return_power(request, user)
+    get_target_power = return_power(request, player)
+
+    get_production_object = production_object(request, player)
     success = True
     attacker_result = "Overwhelming Victory"
     defender_result = "Overwhelming Defeat"
@@ -432,38 +507,71 @@ def calculate_clear_defeat(request, player_id, attack_type):
         defender_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.strong_intel_troops)
         defender_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.elite_intel_troops)
 
-        return success, attacker_result, defender_result, attacker_loss_weak, attacker_loss_strong, attacker_loss_elite, defender_loss_weak, defender_loss_strong, defender_loss_elite
+        results = {
+            'get_target_power': get_target_power,
+            'get_user_power': get_user_power,
+            'success': success,
+            'attacker_result': attacker_result,
+            'defender_result': defender_result,
+            'data_crystal_gain': data_crystal_gain,
+            'attacker_loss_weak': attacker_loss_weak,
+            'attacker_loss_strong': attacker_loss_strong,
+            'attacker_loss_elite': attacker_loss_elite,
+            'defender_loss_weak': defender_loss_weak,
+            'defender_loss_strong': defender_loss_strong,
+            'defender_loss_elite': defender_loss_elite,
+        }
+        return results
     
-    elif attack_type == "Attack":
-        get_target_power = PlayerPower.objects.get(user_profile=player)
-        get_user_power = PlayerPower.objects.get(user_profile=request.user)
+    elif attack_type == "Attack":      
 
         success = False
         attacker_result = "Clear Defeat"
         defender_result = "Clear Victory"
         data_crystal_gain = 0
 
-        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_CLEAR_FAILURE_ATTACK * attacker_troops.weak_attack_troops)
-        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_CLEAR_FAILURE_ATTACK * attacker_troops.strong_attack_troops)
-        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_CLEAR_FAILURE_ATTACK * attacker_troops.elite_attack_troops)
+        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_CLEAR_FAILURE_ATTACK * get_user_troops.weak_attack_troops)
+        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_CLEAR_FAILURE_ATTACK * get_user_troops.strong_attack_troops)
+        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_CLEAR_FAILURE_ATTACK * get_user_troops.elite_attack_troops)
 
-        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_CLEAR_FAILURE_ATTACK * defender_troops.weak_defence_troops)
-        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_CLEAR_FAILURE_ATTACK * defender_troops.strong_defence_troops)
-        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_CLEAR_FAILURE_ATTACK * defender_troops.elite_defence_troops)
+        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_CLEAR_FAILURE_ATTACK * get_target_troops.weak_defence_troops)
+        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_CLEAR_FAILURE_ATTACK * get_target_troops.strong_defence_troops)
+        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_CLEAR_FAILURE_ATTACK * get_target_troops.elite_defence_troops)
 
-        return get_target_power, get_user_power, success, attacker_result, defender_result, data_crystal_gain, attacker_loss_weak, attacker_loss_strong, attacker_loss_elite, defender_loss_weak, defender_loss_strong, defender_loss_elite
+        results = {
+            'get_target_power': get_target_power,
+            'get_user_power': get_user_power,
+            'success': success,
+            'attacker_result': attacker_result,
+            'defender_result': defender_result,
+            'data_crystal_gain': data_crystal_gain,
+            'attacker_loss_weak': attacker_loss_weak,
+            'attacker_loss_strong': attacker_loss_strong,
+            'attacker_loss_elite': attacker_loss_elite,
+            'defender_loss_weak': defender_loss_weak,
+            'defender_loss_strong': defender_loss_strong,
+            'defender_loss_elite': defender_loss_elite,
+        }
+        return results
     
 
 def calculate_narrow_defeat(request, player_id, attack_type):
-    player = UserProfile.objects.get(id=player_id)
+    player = get_player(request, player_id)
+    user = get_user(request)
+
+    get_user_troops = return_troops(request, user)
+    get_target_troops = return_troops(request, player)
+
+    get_user_power = return_power(request, user)
+    get_target_power = return_power(request, player)
+
+    get_production_object = production_object(request, player)
 
     success = True
     attacker_result = "Overwhelming Victory"
     defender_result = "Overwhelming Defeat"
 
-    if attack_type == "Intel":
-        get_target_troops = Troops.objects.get(user_profile=player)
-        get_user_troops = Troops.objects.get(user_profile=request.user)
+    if attack_type == "Intel":      
 
         attacker_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.weak_intel_troops)
         attacker_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.strong_intel_troops)
@@ -473,26 +581,52 @@ def calculate_narrow_defeat(request, player_id, attack_type):
         defender_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.strong_intel_troops)
         defender_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.elite_intel_troops)
 
-        return success, attacker_result, defender_result, attacker_loss_weak, attacker_loss_strong, attacker_loss_elite, defender_loss_weak, defender_loss_strong, defender_loss_elite
+        results = {
+            'get_target_power': get_target_power,
+            'get_user_power': get_user_power,
+            'success': success,
+            'attacker_result': attacker_result,
+            'defender_result': defender_result,
+            'data_crystal_gain': data_crystal_gain,
+            'attacker_loss_weak': attacker_loss_weak,
+            'attacker_loss_strong': attacker_loss_strong,
+            'attacker_loss_elite': attacker_loss_elite,
+            'defender_loss_weak': defender_loss_weak,
+            'defender_loss_strong': defender_loss_strong,
+            'defender_loss_elite': defender_loss_elite,
+        }
+        return results
     
-    elif attack_type == "Attack":
-        get_target_power = PlayerPower.objects.get(user_profile=player)
-        get_user_power = PlayerPower.objects.get(user_profile=request.user)
+    elif attack_type == "Attack":     
 
         success = False
         attacker_result = "Defeat"
         defender_result = "Victory"
         data_crystal_gain = 0
 
-        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_NARROW_FAILURE_ATTACK * attacker_troops.weak_attack_troops)
-        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_NARROW_FAILURE_ATTACK * attacker_troops.strong_attack_troops)
-        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_NARROW_FAILURE_ATTACK * attacker_troops.elite_attack_troops)
+        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_NARROW_FAILURE_ATTACK * get_user_troops.weak_attack_troops)
+        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_NARROW_FAILURE_ATTACK * get_user_troops.strong_attack_troops)
+        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_NARROW_FAILURE_ATTACK * get_user_troops.elite_attack_troops)
 
-        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_NARROW_FAILURE_ATTACK * defender_troops.weak_defence_troops)
-        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_NARROW_FAILURE_ATTACK * defender.strong_defence_troops)
-        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_NARROW_FAILURE_ATTACK * defender.elite_defence_troops) 
+        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_NARROW_FAILURE_ATTACK * get_target_troops.weak_defence_troops)
+        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_NARROW_FAILURE_ATTACK * get_target_troops.strong_defence_troops)
+        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_NARROW_FAILURE_ATTACK * get_target_troops.elite_defence_troops) 
 
-        return get_target_power, get_user_power, success, attacker_result, defender_result, data_crystal_gain, attacker_loss_weak, attacker_loss_strong, attacker_loss_elite, defender_loss_weak, defender_loss_strong, defender_loss_elite
+        results = {
+            'get_target_power': get_target_power,
+            'get_user_power': get_user_power,
+            'success': success,
+            'attacker_result': attacker_result,
+            'defender_result': defender_result,
+            'data_crystal_gain': data_crystal_gain,
+            'attacker_loss_weak': attacker_loss_weak,
+            'attacker_loss_strong': attacker_loss_strong,
+            'attacker_loss_elite': attacker_loss_elite,
+            'defender_loss_weak': defender_loss_weak,
+            'defender_loss_strong': defender_loss_strong,
+            'defender_loss_elite': defender_loss_elite,
+        }
+        return results
     
 
 
