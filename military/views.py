@@ -10,6 +10,11 @@ from production.models import Production
 from player_power.views import calculate_attack, calculate_defence, calculate_intel, calculate_income
 
 
+def return_troops(request, user):
+    get_troops = Troops.objects.get(user_profile=user)
+    return get_troops
+
+
 def getTroopAttributes(request):
     getTroopAttributes = TroopAttributes.objects.get()    
     t1_attack_name = getTroopAttributes.attack_tier_one_name
@@ -305,8 +310,8 @@ def trainTroops(request):
         update_data_crystals.data_crystal_balance = update_data_crystals.data_crystal_balance - total_cost
         update_data_crystals.save()
         
-        calculateAttack = calculate_attack(request)
-        calculateDefence = calculate_defence(request)
+        calculateAttack = calculate_attack(request, profile.id)
+        calculateDefence = calculate_defence(request, profile.id)
         calculateIntel = calculate_intel(request)
         calculateIncome = calculate_income(request)
 

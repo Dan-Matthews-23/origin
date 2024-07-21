@@ -7,6 +7,21 @@ from django.contrib import messages
 from django.conf import settings
 from military.views import getTroopNumbers
 
+
+
+
+
+def production_object(request, user):
+    production_object = Production.objects.get(user_profile=user)
+    return production_object
+
+
+def get_data_crystal_balance(request, user):    
+    query = Production.objects.get(user_profile=user)
+    get_balance = query.data_crystal_balance
+    return get_balance
+
+
 def production(request):
     profile = UserProfile.objects.get(user=request.user)
     try:

@@ -5,6 +5,13 @@ from user_account.models import UserProfile
 from faction_data.models import TroopAttributes
 from .models import PlayerPower
 
+
+
+def return_power(request, user):
+    get_power = PlayerPower.objects.get(user_profile=user)
+    return get_power
+
+
 def calculate_attack(requestl, player_id):
     profile = UserProfile.objects.get(id=player_id)
     troops = Troops.objects.get(user_profile=profile)

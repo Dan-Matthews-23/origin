@@ -9,6 +9,16 @@ from .forms import UserProfileForm
 from django.views.decorators.http import require_POST
 
 
+def get_user(request):
+    user = UserProfile.objects.get(user=request.user)
+    return user
+
+def get_player(request, player_id):
+    player = UserProfile.objects.get(id=player_id)
+    return player
+
+
+
 @login_required
 def update_user_account(request):
     profile = get_object_or_404(UserProfile, user=request.user)
