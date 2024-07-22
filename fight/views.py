@@ -70,13 +70,13 @@ def fight(request):
     unknown = "Unknown"
     players = []
     player_data = {}
-    profile = UserProfile.objects.get(user=request.user)
-    get_user_power = PlayerPower.objects.get(user_profile=profile)
+    profile = get_user(request)
+    get_user_power = return_power(request, profile)    
     for player in UserProfile.objects.all():
         try:            
-            get_player_troops = Troops.objects.get(user_profile=player)
-            get_player_power = PlayerPower.objects.get(user_profile=player)
-            get_player_production = Production.objects.get(user_profile=player)
+            get_player_troops = return_troops(request, player)            
+            get_player_power = return_power(request, player)
+            get_player_production = production_object(request, player)
             player_id =  player.id
             get_intel_status = check_intelligence(request, player_id)
             if get_intel_status == True:
@@ -105,9 +105,9 @@ def fight(request):
 def player_info(request, player_id):
     unknown = "Unknown"
     player = UserProfile.objects.get(id=player_id)    
-    get_player_troops = Troops.objects.get(user_profile=player)
-    get_player_power = PlayerPower.objects.get(user_profile=player)
-    get_player_production = Production.objects.get(user_profile=player)    
+    get_player_troops = return_troops(request, player)            
+    get_player_power = return_power(request, player)
+    get_player_production = production_object(request, player)  
     get_intel_status = check_intelligence(request, player_id)
     if get_intel_status == True:
         get_total_army = calculate_total_troops(request, player_id)    
@@ -158,29 +158,46 @@ def biased_random_bool(true_bias):
     boolean_options = [True] * num_true + [False] * num_false
     return choice(boolean_options)
 
-def calculate_fifty_percent(request, player_id, weighting):
+def calculate_fifty_percent(request, player_id, weighting, attack_type):
     player = get_player(request, player_id)
     player_power = return_power(request, player)
-    if weighting == "Higher":
-        calculate_fifty_percent = ((player_power.defence/100)*50)+player_power.defence
-        calculate_twenty_five_percent = ((player_power.defence/100)*25)+player_power.defence
-        return calculate_fifty_percent
-    elif weighting == "Lower":
-        calculate_fifty_percent = player_power.defence - ((player_power.defence/100)*50)
-        return calculate_fifty_percent
+
+    if attack_type == "Intel":
+        if weighting == "Higher":
+            calculate_fifty_percent = ((player_power.intel/100)*50)+player_power.intel            
+            return calculate_fifty_percent
+        elif weighting == "Lower":
+            calculate_fifty_percent = player_power.intel - ((player_power.intel/100)*50)
+            return calculate_fifty_percent
+    elif attack_type =="Attack":   
+        if weighting == "Higher":
+            calculate_fifty_percent = ((player_power.defence/100)*50)+player_power.defence            
+            return calculate_fifty_percent
+        elif weighting == "Lower":
+            calculate_fifty_percent = player_power.defence - ((player_power.defence/100)*50)
+            return calculate_fifty_percent
         
 
 
 
-def calculate_twenty_five_percent(request, player_id, weighting):
+def calculate_twenty_five_percent(request, player_id, weighting, attack_type):
     player = get_player(request, player_id)
     player_power = return_power(request, player)
-    if weighting == "Higher":
-        calculate_twenty_five_percent = ((player_power.defence/100)*25)+player_power.defence
-        return calculate_twenty_five_percent
-    elif weighting == "Lower":
-        calculate_twenty_five_percent = player_power.defence - ((player_power.defence/100)*25)
-        return calculate_twenty_five_percent
+
+    if attack_type =="Intel":    
+        if weighting == "Higher":
+            calculate_twenty_five_percent = ((player_power.intel/100)*25)+player_power.intel
+            return calculate_twenty_five_percent
+        elif weighting == "Lower":
+            calculate_twenty_five_percent = player_power.intel - ((player_power.intel/100)*25)
+            return calculate_twenty_five_percent
+    elif attack_type == "Attack":
+        if weighting == "Higher":
+            calculate_twenty_five_percent = ((player_power.defence/100)*25)+player_power.defence
+            return calculate_twenty_five_percent
+        elif weighting == "Lower":
+            calculate_twenty_five_percent = player_power.defence - ((player_power.defence/100)*25)
+            return calculate_twenty_five_percent
 
 
 def calculate_overwhelming_victory(request, player_id, attack_type):
@@ -202,13 +219,13 @@ def calculate_overwhelming_victory(request, player_id, attack_type):
 
     if attack_type == "Intel":
 
-        attacker_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.weak_intel_troops)
-        attacker_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.strong_intel_troops)
-        attacker_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.elite_intel_troops)
+        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_OVERWHELMING_SUCCESS_ATTACK * get_user_troops.weak_intel_troops)
+        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_OVERWHELMING_SUCCESS_ATTACK * get_user_troops.strong_intel_troops)
+        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_OVERWHELMING_SUCCESS_ATTACK * get_user_troops.elite_intel_troops)
 
-        defender_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.weak_intel_troops)
-        defender_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.strong_intel_troops)
-        defender_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.elite_intel_troops)
+        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_OVERWHELMING_SUCCESS_ATTACK * get_target_troops.weak_intel_troops)
+        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_OVERWHELMING_SUCCESS_ATTACK * get_target_troops.strong_intel_troops)
+        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_OVERWHELMING_SUCCESS_ATTACK * get_target_troops.elite_intel_troops)
 
         results = {
             'get_target_power': get_target_power,
@@ -216,7 +233,7 @@ def calculate_overwhelming_victory(request, player_id, attack_type):
             'success': success,
             'attacker_result': attacker_result,
             'defender_result': defender_result,
-            'data_crystal_gain': data_crystal_gain,
+            #'data_crystal_gain': data_crystal_gain,
             'attacker_loss_weak': attacker_loss_weak,
             'attacker_loss_strong': attacker_loss_strong,
             'attacker_loss_elite': attacker_loss_elite,
@@ -273,22 +290,36 @@ def calculate_clear_victory(request, player_id, attack_type):
 
     get_production_object = production_object(request, player)
     success = True
-    attacker_result = "Overwhelming Victory"
-    defender_result = "Overwhelming Defeat"
+    attacker_result = "Clear Victory"
+    defender_result = "Clear Defeat"
 
-    if attack_type == "Intel":
-        get_target_troops = Troops.objects.get(user_profile=player)
-        get_user_troops = Troops.objects.get(user_profile=request.user)
+    if attack_type == "Intel":       
 
-        attacker_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.weak_intel_troops)
-        attacker_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.strong_intel_troops)
-        attacker_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.elite_intel_troops)
+        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_user_troops.weak_intel_troops)
+        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_user_troops.strong_intel_troops)
+        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_user_troops.elite_intel_troops)
 
-        defender_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.weak_intel_troops)
-        defender_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.strong_intel_troops)
-        defender_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.elite_intel_troops)
+        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_target_troops.weak_intel_troops)
+        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_target_troops.strong_intel_troops)
+        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_target_troops.elite_intel_troops)
 
-        return success, attacker_result, defender_result, attacker_loss_weak, attacker_loss_strong, attacker_loss_elite, defender_loss_weak, defender_loss_strong, defender_loss_elite
+        results = {
+            'get_target_power': get_target_power,
+            'get_user_power': get_user_power,
+            'success': success,
+            'attacker_result': attacker_result,
+            'defender_result': defender_result,
+            #'data_crystal_gain': data_crystal_gain,
+            'attacker_loss_weak': attacker_loss_weak,
+            'attacker_loss_strong': attacker_loss_strong,
+            'attacker_loss_elite': attacker_loss_elite,
+            'defender_loss_weak': defender_loss_weak,
+            'defender_loss_strong': defender_loss_strong,
+            'defender_loss_elite': defender_loss_elite,
+        }
+        return results
+
+        
     
     elif attack_type == "Attack":
         player = get_player(request, player_id)
@@ -346,20 +377,19 @@ def calculate_narrow_victory(request, player_id, attack_type):
 
     get_production_object = production_object(request, player)
     success = True
-    attacker_result = "Overwhelming Victory"
-    defender_result = "Overwhelming Defeat"
+    attacker_result = "Victory"
+    defender_result = "Defeat"
 
     if attack_type == "Intel":
-        get_target_troops = Troops.objects.get(user_profile=player)
-        get_user_troops = Troops.objects.get(user_profile=request.user)
+        
 
-        attacker_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.weak_intel_troops)
-        attacker_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.strong_intel_troops)
-        attacker_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.elite_intel_troops)
+        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_user_troops.weak_intel_troops)
+        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_user_troops.strong_intel_troops)
+        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_user_troops.elite_intel_troops)
 
-        defender_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.weak_intel_troops)
-        defender_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.strong_intel_troops)
-        defender_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.elite_intel_troops)
+        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_target_troops.weak_intel_troops)
+        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_target_troops.strong_intel_troops)
+        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_target_troops.elite_intel_troops)
 
         results = {
             'get_target_power': get_target_power,
@@ -367,7 +397,7 @@ def calculate_narrow_victory(request, player_id, attack_type):
             'success': success,
             'attacker_result': attacker_result,
             'defender_result': defender_result,
-            'data_crystal_gain': data_crystal_gain,
+            #'data_crystal_gain': data_crystal_gain,
             'attacker_loss_weak': attacker_loss_weak,
             'attacker_loss_strong': attacker_loss_strong,
             'attacker_loss_elite': attacker_loss_elite,
@@ -422,20 +452,34 @@ def calculate_overwhelming_defeat(request, player_id, attack_type):
     get_target_power = return_power(request, player)
 
     success = True
-    attacker_result = "Overwhelming Victory"
-    defender_result = "Overwhelming Defeat"
+    attacker_result = "Overwhelming Defeat"
+    defender_result = "Overwhelming Victory"
 
     if attack_type == "Intel":        
 
-        attacker_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.weak_intel_troops)
-        attacker_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.strong_intel_troops)
-        attacker_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.elite_intel_troops)
+        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_OVERWHELMING_FAILURE_ATTACK * get_user_troops.weak_intel_troops)
+        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_OVERWHELMING_FAILURE_ATTACK * get_user_troops.strong_intel_troops)
+        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_OVERWHELMING_FAILURE_ATTACK * get_user_troops.elite_intel_troops)
 
-        defender_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.weak_intel_troops)
-        defender_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.strong_intel_troops)
-        defender_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.elite_intel_troops)
+        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_OVERWHELMING_FAILURE_ATTACK * get_target_troops.weak_intel_troops)
+        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_OVERWHELMING_FAILURE_ATTACK * get_target_troops.strong_intel_troops)
+        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_OVERWHELMING_FAILURE_ATTACK * get_target_troops.elite_intel_troops)
 
-        return success, attacker_result, defender_result, attacker_loss_weak, attacker_loss_strong, attacker_loss_elite, defender_loss_weak, defender_loss_strong, defender_loss_elite
+        results = {
+            'get_target_power': get_target_power,
+            'get_user_power': get_user_power,
+            'success': success,
+            'attacker_result': attacker_result,
+            'defender_result': defender_result,
+            #'data_crystal_gain': data_crystal_gain,
+            'attacker_loss_weak': attacker_loss_weak,
+            'attacker_loss_strong': attacker_loss_strong,
+            'attacker_loss_elite': attacker_loss_elite,
+            'defender_loss_weak': defender_loss_weak,
+            'defender_loss_strong': defender_loss_strong,
+            'defender_loss_elite': defender_loss_elite,
+        }
+        return results
     
     elif attack_type == "Attack":
         
@@ -492,20 +536,19 @@ def calculate_clear_defeat(request, player_id, attack_type):
 
     get_production_object = production_object(request, player)
     success = True
-    attacker_result = "Overwhelming Victory"
-    defender_result = "Overwhelming Defeat"
+    attacker_result = "Clear Defeat"
+    defender_result = "Clear Victory"
 
     if attack_type == "Intel":
-        get_target_troops = Troops.objects.get(user_profile=player)
-        get_user_troops = Troops.objects.get(user_profile=request.user)
+        
 
-        attacker_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.weak_intel_troops)
-        attacker_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.strong_intel_troops)
-        attacker_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.elite_intel_troops)
+        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_CLEAR_FAILURE_ATTACK * get_user_troops.weak_intel_troops)
+        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_CLEAR_FAILURE_ATTACK * get_user_troops.strong_intel_troops)
+        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_CLEAR_FAILURE_ATTACK * get_user_troops.elite_intel_troops)
 
-        defender_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.weak_intel_troops)
-        defender_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.strong_intel_troops)
-        defender_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.elite_intel_troops)
+        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_CLEAR_FAILURE_ATTACK * get_target_troops.weak_intel_troops)
+        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_CLEAR_FAILURE_ATTACK * get_target_troops.strong_intel_troops)
+        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_CLEAR_FAILURE_ATTACK * get_target_troops.elite_intel_troops)
 
         results = {
             'get_target_power': get_target_power,
@@ -513,7 +556,7 @@ def calculate_clear_defeat(request, player_id, attack_type):
             'success': success,
             'attacker_result': attacker_result,
             'defender_result': defender_result,
-            'data_crystal_gain': data_crystal_gain,
+            #'data_crystal_gain': data_crystal_gain,
             'attacker_loss_weak': attacker_loss_weak,
             'attacker_loss_strong': attacker_loss_strong,
             'attacker_loss_elite': attacker_loss_elite,
@@ -568,18 +611,18 @@ def calculate_narrow_defeat(request, player_id, attack_type):
     get_production_object = production_object(request, player)
 
     success = True
-    attacker_result = "Overwhelming Victory"
-    defender_result = "Overwhelming Defeat"
+    attacker_result = "Defeat"
+    defender_result = "Victory"
 
     if attack_type == "Intel":      
 
-        attacker_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.weak_intel_troops)
-        attacker_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.strong_intel_troops)
-        attacker_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_troops.elite_intel_troops)
+        attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_NARROW_FAILURE_ATTACK * get_user_troops.weak_intel_troops)
+        attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_NARROW_FAILURE_ATTACK * get_user_troops.strong_intel_troops)
+        attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_NARROW_FAILURE_ATTACK * get_user_troops.elite_intel_troops)
 
-        defender_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.weak_intel_troops)
-        defender_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.strong_intel_troops)
-        defender_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_target_troops.elite_intel_troops)
+        defender_loss_weak = (settings.DEFENDER_LOSS_FOR_NARROW_FAILURE_ATTACK * get_target_troops.weak_intel_troops)
+        defender_loss_strong = (settings.DEFENDER_LOSS_FOR_NARROW_FAILURE_ATTACK * get_target_troops.strong_intel_troops)
+        defender_loss_elite = (settings.DEFENDER_LOSS_FOR_NARROW_FAILURE_ATTACK * get_target_troops.elite_intel_troops)
 
         results = {
             'get_target_power': get_target_power,
@@ -587,7 +630,7 @@ def calculate_narrow_defeat(request, player_id, attack_type):
             'success': success,
             'attacker_result': attacker_result,
             'defender_result': defender_result,
-            'data_crystal_gain': data_crystal_gain,
+            #'data_crystal_gain': data_crystal_gain,
             'attacker_loss_weak': attacker_loss_weak,
             'attacker_loss_strong': attacker_loss_strong,
             'attacker_loss_elite': attacker_loss_elite,
@@ -639,176 +682,145 @@ def calculate_narrow_defeat(request, player_id, attack_type):
 
 def spy(request, player_id):
     success = False
-    player = UserProfile.objects.get(id=player_id)
-    user = UserProfile.objects.get(user=request.user)
-    get_user_intel_troops = Troops.objects.get(user_profile=user)
-    get_player_intel_troops = Troops.objects.get(user_profile=player)
-    get_player_power = PlayerPower.objects.get(user_profile=player)
-    get_user_intel = PlayerPower.objects.get(user_profile=user)
-    get_player_intel = PlayerPower.objects.get(user_profile=player)
+    attack_type = "Intel"
+    player = get_player(request, player_id)
+    user = get_user(request)
+    attacker_troops = return_troops(request, user)
+    defender_troops = return_troops(request, player)     
 
-    #If user intel is 50% or higher than target
-    fifty_percent_higher_player = ((get_player_intel.intel/100)*50)+get_player_intel.intel
-    twenty_five_percent_higher_player = ((get_player_intel.intel/100)*25)+get_player_intel.intel
-
-    #If user intel is 50% or lower than target
-    fifty_percent_lower_player = get_player_intel.intel - ((get_player_intel.intel/100)*50)  
-    twenty_five_percent_lower_player = get_player_intel.intel - ((get_player_intel.intel/100)*25)
-
-    #print(f"Expected User intel is 1000. Actual is {get_user_intel.intel}. Expected Target intel is 2000. Actual is {get_player_intel.intel}. Expected 50% lower is 1000. Actual is {fifty_percent_lower_player}. Expected 25% lower is 1500. Actual is {twenty_five_percent_lower_player}")
-
-    if get_user_intel.intel >= fifty_percent_higher_player:
-        success = True
-        result = "Overwhelming Victory"
-        attacker_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_intel_troops.weak_intel_troops)
-        attacker_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_intel_troops.strong_intel_troops)
-        attacker_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_user_intel_troops.elite_intel_troops)
-        defender_loss_weak = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_player_intel_troops.weak_intel_troops)
-        defender_loss_strong = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_player_intel_troops.strong_intel_troops)
-        defender_loss_elite = (settings.BASE_INTEL_LOSS_OVERWHELMING * get_player_intel_troops.elite_intel_troops)
+    user_data_crystal_balance = get_data_crystal_balance(request, user)
+    player_data_crystal_balance = get_data_crystal_balance(request, player)    
     
-    elif get_user_intel.intel < fifty_percent_higher_player and get_user_intel.intel > twenty_five_percent_higher_player:
-        true_bias = settings.TRUE_BIAS_TWENTY_FIVE_PERCENT
-        success = biased_random_bool(true_bias)
-        result = "Clear Victory"        
-        attacker_loss_weak = (settings.BASE_INTEL_LOSS_CLEAR * get_user_intel_troops.weak_intel_troops)
-        attacker_loss_strong = (settings.BASE_INTEL_LOSS_CLEAR * get_user_intel_troops.strong_intel_troops)
-        attacker_loss_elite = (settings.BASE_INTEL_LOSS_CLEAR * get_user_intel_troops.elite_intel_troops)
-        defender_loss_weak = (settings.BASE_INTEL_LOSS_CLEAR * get_player_intel_troops.weak_intel_troops)
-        defender_loss_strong = (settings.BASE_INTEL_LOSS_CLEAR * get_player_intel_troops.strong_intel_troops)
-        defender_loss_elite = (settings.BASE_INTEL_LOSS_CLEAR * get_player_intel_troops.elite_intel_troops)
+    get_user_power = return_power(request, user)
+    get_player_power = return_power(request, player)
+
+   
+    fifty_percent_higher = calculate_fifty_percent(request, player_id, "Higher", attack_type)
+    twenty_five_percent_higher = calculate_twenty_five_percent(request, player_id, "Higher", attack_type)
+
+    fifty_percent_lower = calculate_fifty_percent(request, player_id, "Lower", attack_type)
+    twenty_five_percent_lower = calculate_twenty_five_percent(request, player_id, "Lower", attack_type)    
+
+    if get_user_power.intel >= fifty_percent_higher:
+        results = calculate_overwhelming_victory(request, player_id, attack_type)
+        attacker_result = return_attacker_result(results)
+        defender_result = return_defender_result(results)
+
+    
+    elif get_user_power.intel < fifty_percent_higher and get_user_power.intel > twenty_five_percent_higher:
+        results = calculate_clear_victory(request, player_id, attack_type)
+        attacker_result = return_attacker_result(results)
+        defender_result = return_defender_result(results)
       
-    elif get_user_intel.intel > get_player_intel.intel and get_user_intel.intel < twenty_five_percent_higher_player:
-        true_bias = settings.TRUE_BIAS_LESS_TWENTY_FIVE_PERCENT
-        success = biased_random_bool(true_bias)
-        result = "Victory"        
-        attacker_loss_weak = (settings.BASE_INTEL_LOSS_VICTORY * get_user_intel_troops.weak_intel_troops)
-        attacker_loss_strong = (settings.BASE_INTEL_LOSS_VICTORY * get_user_intel_troops.strong_intel_troops)
-        attacker_loss_elite = (settings.BASE_INTEL_LOSS_VICTORY * get_user_intel_troops.elite_intel_troops)
-
-        defender_loss_weak = (settings.BASE_INTEL_LOSS_VICTORY * get_player_intel_troops.weak_intel_troops)
-        defender_loss_strong = (settings.BASE_INTEL_LOSS_VICTORY * get_player_intel_troops.strong_intel_troops)
-        defender_loss_elite = (settings.BASE_INTEL_LOSS_VICTORY * get_player_intel_troops.elite_intel_troops)
-
-    elif get_user_intel.intel <= fifty_percent_lower_player:
-        #print(f"Overwhelming Loss. Expected User intel is 1000. Actual is {get_user_intel.intel}. Expected Target intel is 2000. Actual is {get_player_intel.intel}. Expected 50% lower is 1000. Actual is {fifty_percent_lower_player}. Expected 25% lower is 1500. Actual is {twenty_five_percent_lower_player}")
-        success = False
-        result = "Overwhelming Loss"
-        attacker_loss_weak = (settings.BASE_INTEL_LOSS_DEFEAT_OVERWHELMING * get_user_intel_troops.weak_intel_troops)
-        attacker_loss_strong = (settings.BASE_INTEL_LOSS_DEFEAT_OVERWHELMING * get_user_intel_troops.strong_intel_troops)
-        attacker_loss_elite = (settings.BASE_INTEL_LOSS_DEFEAT_OVERWHELMING * get_user_intel_troops.elite_intel_troops)
-
-        defender_loss_weak = (settings.BASE_INTEL_LOSS_DEFEAT_OVERWHELMING * get_player_intel_troops.weak_intel_troops)
-        defender_loss_strong = (settings.BASE_INTEL_LOSS_DEFEAT_OVERWHELMING * get_player_intel_troops.strong_intel_troops)
-        defender_loss_elite = (settings.BASE_INTEL_LOSS_DEFEAT_OVERWHELMING * get_player_intel_troops.elite_intel_troops)
-
-    elif get_user_intel.intel > fifty_percent_lower_player and get_user_intel.intel <= twenty_five_percent_lower_player:
-        success = False
-        result = "Clear Loss"
-        attacker_loss_weak = (settings.BASE_INTEL_LOSS_DEFEAT_CLEAR * get_user_intel_troops.weak_intel_troops)
-        attacker_loss_strong = (settings.BASE_INTEL_LOSS_DEFEAT_CLEAR * get_user_intel_troops.strong_intel_troops)
-        attacker_loss_elite = (settings.BASE_INTEL_LOSS_DEFEAT_CLEAR * get_user_intel_troops.elite_intel_troops)
-        defender_loss_weak = (settings.BASE_INTEL_LOSS_DEFEAT_CLEAR * get_player_intel_troops.weak_intel_troops)
-        defender_loss_strong = (settings.BASE_INTEL_LOSS_DEFEAT_CLEAR * get_player_intel_troops.strong_intel_troops)
-        defender_loss_elite = (settings.BASE_INTEL_LOSS_DEFEAT_CLEAR * get_player_intel_troops.elite_intel_troops)
+    elif get_user_power.intel > get_player_power.intel and get_user_power.intel < twenty_five_percent_higher:
+        results = calculate_narrow_victory(request, player_id, attack_type)
+        attacker_result = return_attacker_result(results)
+        defender_result = return_defender_result(results)
+        
+    elif get_user_power.intel <= fifty_percent_lower:
+        results = calculate_overwhelming_defeat(request, player_id, attack_type)
+        attacker_result = return_attacker_result(results)
+        defender_result = return_defender_result(results)
+        
+    elif get_user_power.intel > fifty_percent_lower and get_user_power.intel <= twenty_five_percent_lower:
+        results = calculate_clear_defeat(request, player_id, attack_type)        
+        attacker_result = return_attacker_result(results)
+        defender_result = return_defender_result(results)
     
-    elif get_user_intel.intel <= get_player_intel.intel and get_user_intel.intel > twenty_five_percent_lower_player:
-        success = False
-        result = "Loss"
-        attacker_loss_weak = (settings.BASE_INTEL_LOSS_DEFEAT_LOSS * get_user_intel_troops.weak_intel_troops)
-        attacker_loss_strong = (settings.BASE_INTEL_LOSS_DEFEAT_LOSS * get_user_intel_troops.strong_intel_troops)
-        attacker_loss_elite = (settings.BASE_INTEL_LOSS_DEFEAT_LOSS * get_user_intel_troops.elite_intel_troops)
-        defender_loss_weak = (settings.BASE_INTEL_LOSS_DEFEAT_LOSS * get_player_intel_troops.weak_intel_troops)
-        defender_loss_strong = (settings.BASE_INTEL_LOSS_DEFEAT_LOSS * get_player_intel_troops.strong_intel_troops)
-        defender_loss_elite = (settings.BASE_INTEL_LOSS_DEFEAT_LOSS * get_player_intel_troops.elite_intel_troops)        
+    elif get_user_power.intel <= get_player_power.intel and get_user_power.intel > twenty_five_percent_lower:
+        results = calculate_narrow_defeat(request, player_id, attack_type)
+        attacker_result = return_attacker_result(results)
+        defender_result = return_defender_result(results)
+               
     else:
-        error = "User intel did not match any parameters in spy function."
-        messages.error(request, f"There was an error while performing this action. This has been logged to the admins.")
+        error = "User intel did not match any parameters in spy function."       
         app_name = get_app_name(request)
         function_name = get_function_name(request)
-        
-        create_log = ErrorLog.objects.create(
-            user=user,
-            app = app_name,
-            function = function_name,
-            error=error
-        )
+        create_log = create_log(request, app_name, function_name, error)
+        messages.error(request, user_error)       
         return redirect(request.META.get('HTTP_REFERER'))    
+    
     if success == False:       
-        create_log = IntelLog.objects.create(
-            result=result,
-            defender_user_profile=player,
-            defender_intel=get_player_intel.intel,
-            defender_troops=0,
-            defender_technologies=0,
-            defender_bonus=0,
-            attacker_user_profile=user,
-            attacker_intel=get_user_intel.intel,
-            attacker_troops=0,
-            attacker_technologies=0,
-            attacker_bonus=0,
-            attacker_weak_intel_troops_loss = attacker_loss_weak,
-            attacker_strong_intel_troops_loss =  attacker_loss_strong,
-            attacker_elite_intel_troops_loss = attacker_loss_elite,
-            defender_defence_power = 0,
-            defender_attack_power = 0,
-            defender_intel_power = 0,
-            defender_income_power = 0,
-            defender_weak_attack_troops = 0,
-            defender_strong_attack_troops = 0,
-            defender_elite_attack_troops = 0,
-            defender_weak_defence_troops = 0,
-            defender_strong_defence_troops = 0,
-            defender_elite_defence_troops = 0,
-            defender_weak_intel_troops = 0,
-            defender_strong_intel_troops = 0,
-            defender_elite_intel_troops = 0,
-            defender_income_specialists = 0,
-            defender_untrained_units = 0,
-                ) 
+            create_attack_log = IntelLog.objects.create(
+                result=attacker_result,
+                defender_user_profile=player, 
+                defender_intel=get_player_power.intel,               
+                defender_weak_intel_troops_loss=results['defender_loss_weak'],
+                defender_strong_intel_troops_loss=results['defender_loss_strong'],
+                defender_elite_intel_troops_loss=results['defender_loss_elite'],
+                attacker_user_profile=user,                   
+                attacker_weak_intel_troops_loss=results['attacker_loss_weak'],
+                attacker_strong_intel_troops_loss=results['attacker_loss_strong'],
+                attacker_elite_intel_troops_loss=results['attacker_loss_elite'],
+                defender_defence_power=get_player_power.defence,
+                defender_attack_power=get_player_power.attack,
+                defender_income_power=get_player_power.income,
+                defender_weak_attack_troops=defender_troops.weak_attack_troops,
+                defender_strong_attack_troops=defender_troops.strong_attack_troops,
+                defender_elite_attack_troops=defender_troops.elite_attack_troops,
+                defender_weak_defence_troops=defender_troops.weak_defence_troops,
+                defender_strong_defence_troops=defender_troops.strong_defence_troops,
+                defender_elite_defence_troops=defender_troops.elite_defence_troops,
+                defender_weak_intel_troops=defender_troops.weak_intel_troops,
+                defender_strong_intel_troops=defender_troops.strong_intel_troops,
+                defender_elite_intel_troops=defender_troops.elite_intel_troops,
+                defender_income_specialists=defender_troops.income_specialists,
+                defender_untrained_units=defender_troops.untrained_units,         
+                             
+            
+            
+            )
+           
     elif success == True:
         #print("True")        
-        create_log = IntelLog.objects.create(
-            result=result,
-            defender_user_profile=player,
-            defender_intel=get_player_intel.intel,
-            defender_troops=0,
-            defender_technologies=0,
-            defender_bonus=0,
-            attacker_user_profile=user,
-            attacker_intel=get_user_intel.intel,
-            attacker_troops=0,
-            attacker_technologies=0,
-            attacker_bonus=0,
-            attacker_weak_intel_troops_loss = attacker_loss_weak,
-            attacker_strong_intel_troops_loss =  attacker_loss_strong,
-            attacker_elite_intel_troops_loss = attacker_loss_elite,
-            defender_defence_power = get_player_power.attack,
-            defender_attack_power = get_player_power.defence,
-            defender_intel_power = get_player_power.intel,
-            defender_income_power = get_player_power.income,
-            defender_weak_attack_troops = get_player_intel_troops.weak_attack_troops,
-            defender_strong_attack_troops = get_player_intel_troops.strong_attack_troops,
-            defender_elite_attack_troops = get_player_intel_troops.elite_attack_troops,
-            defender_weak_defence_troops = get_player_intel_troops.weak_defence_troops,
-            defender_strong_defence_troops = get_player_intel_troops.strong_defence_troops,
-            defender_elite_defence_troops = get_player_intel_troops.elite_defence_troops,
-            defender_weak_intel_troops = get_player_intel_troops.weak_intel_troops,
-            defender_strong_intel_troops = get_player_intel_troops.strong_intel_troops,
-            defender_elite_intel_troops = get_player_intel_troops.elite_intel_troops,
-            defender_income_specialists = get_player_intel_troops.income_specialists,
-            defender_untrained_units = get_player_intel_troops.untrained_units,
+        create_attack_log = IntelLog.objects.create(
+            result=attacker_result,
+                defender_user_profile=player, 
+                defender_intel=get_player_power.intel,               
+                defender_weak_intel_troops_loss=results['defender_loss_weak'],
+                defender_strong_intel_troops_loss=results['defender_loss_strong'],
+                defender_elite_intel_troops_loss=results['defender_loss_elite'],
+                attacker_user_profile=user,                   
+                attacker_weak_intel_troops_loss=results['attacker_loss_weak'],
+                attacker_strong_intel_troops_loss=results['attacker_loss_strong'],
+                attacker_elite_intel_troops_loss=results['attacker_loss_elite'],
+                defender_defence_power=get_player_power.defence,
+                defender_attack_power=get_player_power.attack,
+                defender_income_power=get_player_power.income,
+                defender_weak_attack_troops=defender_troops.weak_attack_troops,
+                defender_strong_attack_troops=defender_troops.strong_attack_troops,
+                defender_elite_attack_troops=defender_troops.elite_attack_troops,
+                defender_weak_defence_troops=defender_troops.weak_defence_troops,
+                defender_strong_defence_troops=defender_troops.strong_defence_troops,
+                defender_elite_defence_troops=defender_troops.elite_defence_troops,
+                defender_weak_intel_troops=defender_troops.weak_intel_troops,
+                defender_strong_intel_troops=defender_troops.strong_intel_troops,
+                defender_elite_intel_troops=defender_troops.elite_intel_troops,
+                defender_income_specialists=defender_troops.income_specialists,
+                defender_untrained_units=defender_troops.untrained_units,
+            
+           
                 )
+            
         
-    get_user_intel_troops.weak_intel_troops = (get_user_intel_troops.weak_intel_troops - attacker_loss_weak)
-    get_user_intel_troops.strong_intel_troops = (get_user_intel_troops.strong_intel_troops - attacker_loss_strong)
-    get_user_intel_troops.elite_intel_troops = (get_user_intel_troops.elite_intel_troops - attacker_loss_elite)
-    get_user_intel_troops.save()     
+           
+                
+        
+    attacker_troops.weak_intel_troops = (attacker_troops.weak_intel_troops - results['attacker_loss_weak'])
+    attacker_troops.strong_intel_troops = (attacker_troops.strong_intel_troops - results['attacker_loss_strong'])
+    attacker_troops.elite_intel_troops = (attacker_troops.elite_intel_troops - results['attacker_loss_elite'])
+    #print(f"Attacker Loss is {attacker_loss_weak}, {attacker_loss_strong} and {attacker_loss_elite}")
+    attacker_troops.save()
+    update_attacker_attack = calculate_attack(request, player_id)
+    #print(f"New attacker attack power is {update_attacker_attack}")
+            
     
-    get_player_intel_troops.weak_intel_troops = (get_player_intel_troops.weak_intel_troops - defender_loss_weak)
-    get_player_intel_troops.strong_intel_troops = (get_player_intel_troops.strong_intel_troops - defender_loss_strong)
-    get_player_intel_troops.elite_intel_troops = (get_player_intel_troops.elite_intel_troops - defender_loss_elite)
-    get_player_intel_troops.save()      
+    defender_troops.weak_intel_troops = (defender_troops.weak_intel_troops - results['defender_loss_weak'])
+    defender_troops.strong_intel_troops = (defender_troops.strong_intel_troops - results['defender_loss_strong'])
+    defender_troops.elite_intel_troops = (defender_troops.elite_intel_troops - results['defender_loss_elite'])    
+    defender_troops.save()
+
+    update_defender_defence = calculate_defence(request, player_id)         
     return redirect('intel_reports')
 
 
@@ -828,11 +840,11 @@ def attack(request, player_id):
     get_player_defence = return_power(request, player)
 
    
-    fifty_percent_higher = calculate_fifty_percent(request, player_id, "Higher")
-    twenty_five_percent_higher = calculate_twenty_five_percent(request, player_id, "Higher")
+    fifty_percent_higher = calculate_fifty_percent(request, player_id, "Higher", attack_type)
+    twenty_five_percent_higher = calculate_twenty_five_percent(request, player_id, "Higher", attack_type)
 
-    fifty_percent_lower = calculate_fifty_percent(request, player_id, "Lower")
-    twenty_five_percent_lower = calculate_twenty_five_percent(request, player_id, "Lower")    
+    fifty_percent_lower = calculate_fifty_percent(request, player_id, "Lower", attack_type)
+    twenty_five_percent_lower = calculate_twenty_five_percent(request, player_id, "Lower", attack_type)    
 
     if get_user_attack.attack >= fifty_percent_higher:
         results = calculate_overwhelming_victory(request, player_id, attack_type)

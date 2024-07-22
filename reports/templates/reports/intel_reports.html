@@ -37,7 +37,7 @@
                 </div>
 
                 {% for report in offensive_reports %}
-                <form method="POST" action="{% url 'report_detail' report.report_id %}">
+                <form method="POST" action="{% url 'intel_report_detail' report.report_id %}">
                     {% csrf_token %}
 
                     <div class="row lg-padding">
