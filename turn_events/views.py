@@ -138,7 +138,68 @@ def calculate_production(request):
             except Exception as e:
                 has_errors = True
                 logger.error(f"Error saving production and troops for user {player}: {e}")
-    return has_errors    
+    return has_errors
+
+
+
+def calculate_total_rank(request):
+    rank_list = []
+    has_errors = False
+
+    for player in UserProfile.objects.all():
+        try:
+            power = PlayerPower.objects.get(user_profile=player)
+            calculate_overall = (power.attack_rank + power.defence_rank + power.intel_rank + power.income_rank)
+            rank_list.append({
+                'player': player,
+                'power': power,  # Store power object for later update
+                'calculation': calculate_overall,
+            })
+        except PlayerPower.DoesNotExist:
+            has_errors = True
+            logger.error(f"Power object not found for user {player}")
+        except django.db.utils.IntegrityError as e:
+            has_errors = True
+            logger.error(f"Database error updating Power object for {player}: {e}")
+
+    # Sort the rank_list by calculation in ascending order
+    rank_list.sort(key=lambda x: x['calculation'])
+
+    # Assign positions and update overall_rank
+    for index, item in enumerate(rank_list, start=1):
+        item['position'] = index
+        item['power'].overall_rank = index
+        item['power'].save()  # Save the updated PlayerPower object
+
+    return rank_list, has_errors
+
+
+
+
+
+
+
+
+
+
+            
+            
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
 
 
 
@@ -146,6 +207,7 @@ def initiate_turn_event(request):
     update_attack = calculate_attack_rank(request)
     update_defence = calculate_defence_rank(request)
     update_production = calculate_production(request)
+    update_total_rank = calculate_total_rank(request)
     error_messages = []    
     if update_attack == True:
         error_messages.append("Error calculating attack rank")    
