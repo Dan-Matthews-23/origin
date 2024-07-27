@@ -8,10 +8,10 @@ from django.urls import resolve, Resolver404
 from django.conf import settings
 from django.contrib import messages
 from user_account.models import UserProfile
-from player_power.models import PlayerPower
+#from player_power.models import PlayerPower
 from player_power.views import calculate_defence, calculate_attack
-from military.models import Troops
-from production.models import Production
+#from military.models import Troops
+#from production.models import Production
 from military.views import calculate_total_troops
 from random import choice
 from reports.models import IntelLog, AttackLog
@@ -59,10 +59,10 @@ def create_log(request, app_name, function_name, error):
 
 
 def check_intelligence(request, player_id):   
-    target_profile = UserProfile.objects.get(id=player_id)
-    user_profile = UserProfile.objects.get(user=request.user)    
-    target_intel = PlayerPower.objects.get(user_profile=target_profile)
-    user_intel = PlayerPower.objects.get(user_profile=user_profile)    
+    target_profile = get_player(request, player_id)
+    user = get_user(request)    
+    target_intel = get_power(request, player_id)
+    user_intel = get_power(request, user)   
     if user_intel.intel >= target_intel.intel:    
         higher_intel = True
     else:
@@ -99,7 +99,7 @@ def fight(request):
                 'data_crystal_balance': player_data_crystal_balance,
             }
             players.append(player_data)            
-        except PlayerPower.DoesNotExist:
+        except UserProfile.DoesNotExist:
             print("Not found")
     context = {'players': players} 
     return render(request, 'fight/fight.html', context)
@@ -690,7 +690,7 @@ def attack(request, player_id):
     defender_troops = get_troops(request, player)
     user_data_crystal_balance = get_data_crystal_balance(request, user)
     player_data_crystal_balance = get_data_crystal_balance(request, player)    
-    get_player_power = PlayerPower.objects.get(user_profile=player)
+    get_player_power = get_power(request, player)
     get_user_attack = get_power(request, user)
     get_player_defence = get_power(request, player)   
     fifty_percent_higher = calculate_fifty_percent(request, player_id, "Higher", attack_type)

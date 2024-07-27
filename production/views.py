@@ -16,7 +16,7 @@ from game_settings.views import get_production, get_user
 
 
 
-def get_data_crystal_balance(request):    
+def get_data_crystal_balance(request, user):    
     query = get_production(request, user)
     get_balance = query.data_crystal_balance
     return get_balance

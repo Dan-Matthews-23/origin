@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',     
     'django.contrib.auth',
     'django.contrib.messages',
+    'django.contrib.humanize',
+    'allauth.usersessions',
     'allauth',
     'allauth.account',
     'home',
@@ -60,9 +62,11 @@ MIDDLEWARE = (
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    
 
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
+    "allauth.usersessions.middleware.UserSessionsMiddleware"
 )
 
 ROOT_URLCONF = 'origin.urls'
