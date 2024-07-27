@@ -8,11 +8,11 @@ from django.conf import settings
 from faction_data.models import TroopAttributes
 from production.models import Production
 from player_power.views import calculate_attack, calculate_defence, calculate_intel, calculate_income
+from game_settings.views import get_troops, get_user, get_power, get_production
 
 
-def return_troops(request, user):
-    get_troops = Troops.objects.get(user_profile=user)
-    return get_troops
+
+    
 
 
 def getTroopAttributes(request):
@@ -309,11 +309,13 @@ def trainTroops(request):
         update_data_crystals = Production.objects.get(user_profile=profile)
         update_data_crystals.data_crystal_balance = update_data_crystals.data_crystal_balance - total_cost
         update_data_crystals.save()
+
+        user = get_user(request)
         
-        calculateAttack = calculate_attack(request, profile.id)
-        calculateDefence = calculate_defence(request, profile.id)
-        calculateIntel = calculate_intel(request)
-        calculateIncome = calculate_income(request)
+        calculateAttack = calculate_attack(request, user)
+        calculateDefence = calculate_defence(request, user)
+        calculateIntel = calculate_intel(request, user)
+        calculateIncome = calculate_income(request, user)
 
         messages.success(request, 'Purchase successful.')
         return redirect('renderMilitary')           

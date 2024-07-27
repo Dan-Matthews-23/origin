@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from .models import Production
 from user_account.models import UserProfile
 from user_account.forms import UserProfileForm
@@ -7,17 +7,17 @@ from django.contrib import messages
 from django.conf import settings
 from military.views import getTroopNumbers
 
+from game_settings.views import get_production, get_user
 
 
 
 
-def production_object(request, user):
-    production_object = Production.objects.get(user_profile=user)
-    return production_object
 
 
-def get_data_crystal_balance(request, user):    
-    query = Production.objects.get(user_profile=user)
+
+
+def get_data_crystal_balance(request):    
+    query = get_production(request, user)
     get_balance = query.data_crystal_balance
     return get_balance
 

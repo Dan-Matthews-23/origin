@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from django.shortcuts import (render, redirect,
                               reverse, get_object_or_404, HttpResponse)
 from django.contrib import messages
@@ -9,13 +9,7 @@ from .forms import UserProfileForm
 from django.views.decorators.http import require_POST
 
 
-def get_user(request):
-    user = UserProfile.objects.get(user=request.user)
-    return user
 
-def get_player(request, player_id):
-    player = UserProfile.objects.get(id=player_id)
-    return player
 
 
 

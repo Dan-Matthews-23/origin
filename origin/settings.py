@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'technology',
     'reports',
     'error_log',
+    'game_settings',
 ]
     
 

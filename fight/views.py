@@ -16,10 +16,10 @@ from military.views import calculate_total_troops
 from random import choice
 from reports.models import IntelLog, AttackLog
 from error_log.models import ErrorLog
-from user_account.views import get_user, get_player
-from military.views import return_troops
-from player_power.views import return_power
-from production.views import production_object, get_data_crystal_balance
+
+from game_settings.views import get_troops, get_power, get_user, get_player, get_production
+
+from production.views import get_data_crystal_balance
 
 
 def return_attacker_result(results):
@@ -75,12 +75,12 @@ def fight(request):
     players = []
     player_data = {}
     profile = get_user(request)
-    get_user_power = return_power(request, profile)    
+    get_user_power = get_power(request, profile)    
     for player in UserProfile.objects.all():
         try:            
-            get_player_troops = return_troops(request, player)            
-            get_player_power = return_power(request, player)
-            get_player_production = production_object(request, player)
+            get_player_troops = get_troops(request, player)            
+            get_player_power = get_power(request, player)
+            get_player_production = get_production(request, player)
             player_id =  player.id
             get_intel_status = check_intelligence(request, player_id)
             if get_intel_status == True:
@@ -108,9 +108,9 @@ def fight(request):
 def player_info(request, player_id):
     unknown = "Unknown"
     player = UserProfile.objects.get(id=player_id)    
-    get_player_troops = return_troops(request, player)            
-    get_player_power = return_power(request, player)
-    get_player_production = production_object(request, player)  
+    get_player_troops = get_troops(request, player)            
+    get_player_power = get_power(request, player)
+    get_player_production = get_production(request, player)  
     get_intel_status = check_intelligence(request, player_id)
     if get_intel_status == True:
         get_total_army = calculate_total_troops(request, player_id)    
@@ -164,7 +164,7 @@ def biased_random_bool(true_bias):
 
 def calculate_fifty_percent(request, player_id, weighting, attack_type):
     player = get_player(request, player_id)
-    player_power = return_power(request, player)
+    player_power = get_power(request, player)
     if attack_type == "Intel":
         if weighting == "Higher":
             calculate_fifty_percent = ((player_power.intel/100)*50)+player_power.intel            
@@ -183,7 +183,7 @@ def calculate_fifty_percent(request, player_id, weighting, attack_type):
 
 def calculate_twenty_five_percent(request, player_id, weighting, attack_type):
     player = get_player(request, player_id)
-    player_power = return_power(request, player)
+    player_power = get_power(request, player)
     if attack_type =="Intel":    
         if weighting == "Higher":
             calculate_twenty_five_percent = ((player_power.intel/100)*25)+player_power.intel
@@ -203,11 +203,11 @@ def calculate_twenty_five_percent(request, player_id, weighting, attack_type):
 def calculate_overwhelming_victory(request, player_id, attack_type):
     player = get_player(request, player_id)
     user = get_user(request)
-    get_user_troops = return_troops(request, user)
-    get_target_troops = return_troops(request, player)
-    get_user_power = return_power(request, user)
-    get_target_power = return_power(request, player)
-    get_production_object = production_object(request, player)
+    get_user_troops = get_troops(request, user)
+    get_target_troops = get_troops(request, player)
+    get_user_power = get_power(request, user)
+    get_target_power = get_power(request, player)
+    get_get_production = get_production(request, player)
     success = True
     attacker_result = "Overwhelming Victory"
     defender_result = "Overwhelming Defeat"
@@ -236,7 +236,7 @@ def calculate_overwhelming_victory(request, player_id, attack_type):
         success = True
         attacker_result = "Overwhelming Victory"
         defender_result = "Overwhelming Defeat"
-        data_crystal_gain = ((get_production_object.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_OVERWHELMING_SUCCESS_ATTACK)
+        data_crystal_gain = ((get_get_production.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_OVERWHELMING_SUCCESS_ATTACK)
         attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_OVERWHELMING_SUCCESS_ATTACK * get_user_troops.weak_attack_troops)
         attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_OVERWHELMING_SUCCESS_ATTACK * get_user_troops.strong_attack_troops)
         attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_OVERWHELMING_SUCCESS_ATTACK * get_user_troops.elite_attack_troops)
@@ -263,11 +263,11 @@ def calculate_overwhelming_victory(request, player_id, attack_type):
 def calculate_clear_victory(request, player_id, attack_type):
     player = get_player(request, player_id)
     user = get_user(request)
-    get_user_troops = return_troops(request, user)
-    get_target_troops = return_troops(request, player)
-    get_user_power = return_power(request, user)
-    get_target_power = return_power(request, player)
-    get_production_object = production_object(request, player)
+    get_user_troops = get_troops(request, user)
+    get_target_troops = get_troops(request, player)
+    get_user_power = get_power(request, user)
+    get_target_power = get_power(request, player)
+    get_get_production = get_production(request, player)
     success = True
     attacker_result = "Clear Victory"
     defender_result = "Clear Defeat"
@@ -295,16 +295,16 @@ def calculate_clear_victory(request, player_id, attack_type):
     elif attack_type == "Attack":
         player = get_player(request, player_id)
         user = get_user(request)
-        get_user_troops = return_troops(request, user)
-        get_target_troops = return_troops(request, player)
-        get_user_power = return_power(request, user)
-        get_target_power = return_power(request, player)
-        get_production_object = production_object(request, player)
+        get_user_troops = get_troops(request, user)
+        get_target_troops = get_troops(request, player)
+        get_user_power = get_power(request, user)
+        get_target_power = get_power(request, player)
+        get_get_production = get_production(request, player)
         true_bias = settings.TRUE_BIAS_TWENTY_FIVE_PERCENT
         success = biased_random_bool(true_bias)
         attacker_result = "Clear Victory"
         defender_result = "Clear Defeat"
-        data_crystal_gain = ((get_production_object.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_CLEAR_SUCCESS_ATTACK)
+        data_crystal_gain = ((get_get_production.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_CLEAR_SUCCESS_ATTACK)
         attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_user_troops.weak_attack_troops)
         attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_user_troops.strong_attack_troops)
         attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_user_troops.elite_attack_troops)
@@ -331,11 +331,11 @@ def calculate_clear_victory(request, player_id, attack_type):
 def calculate_narrow_victory(request, player_id, attack_type):
     player = get_player(request, player_id)
     user = get_user(request)
-    get_user_troops = return_troops(request, user)
-    get_target_troops = return_troops(request, player)
-    get_user_power = return_power(request, user)
-    get_target_power = return_power(request, player)
-    get_production_object = production_object(request, player)
+    get_user_troops = get_troops(request, user)
+    get_target_troops = get_troops(request, player)
+    get_user_power = get_power(request, user)
+    get_target_power = get_power(request, player)
+    get_get_production = get_production(request, player)
     success = True
     attacker_result = "Victory"
     defender_result = "Defeat"
@@ -365,7 +365,7 @@ def calculate_narrow_victory(request, player_id, attack_type):
         success = biased_random_bool(true_bias)
         attacker_result = "Victory"
         defender_result = "Defeat"
-        data_crystal_gain = ((get_production_object.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_NARROW_SUCCESS_ATTACK)
+        data_crystal_gain = ((get_get_production.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_NARROW_SUCCESS_ATTACK)
         attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_user_troops.weak_attack_troops)
         attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_user_troops.strong_attack_troops)
         attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_user_troops.elite_attack_troops)
@@ -392,10 +392,10 @@ def calculate_narrow_victory(request, player_id, attack_type):
 def calculate_overwhelming_defeat(request, player_id, attack_type):
     player = get_player(request, player_id)
     user = get_user(request)
-    get_user_troops = return_troops(request, user)
-    get_target_troops = return_troops(request, player)
-    get_user_power = return_power(request, user)
-    get_target_power = return_power(request, player)
+    get_user_troops = get_troops(request, user)
+    get_target_troops = get_troops(request, player)
+    get_user_power = get_power(request, user)
+    get_target_power = get_power(request, player)
     success = True
     attacker_result = "Overwhelming Defeat"
     defender_result = "Overwhelming Victory"
@@ -451,11 +451,11 @@ def calculate_overwhelming_defeat(request, player_id, attack_type):
 def calculate_clear_defeat(request, player_id, attack_type):
     player = get_player(request, player_id)
     user = get_user(request)
-    get_user_troops = return_troops(request, user)
-    get_target_troops = return_troops(request, player)
-    get_user_power = return_power(request, user)
-    get_target_power = return_power(request, player)
-    get_production_object = production_object(request, player)
+    get_user_troops = get_troops(request, user)
+    get_target_troops = get_troops(request, player)
+    get_user_power = get_power(request, user)
+    get_target_power = get_power(request, player)
+    get_get_production = get_production(request, player)
     success = True
     attacker_result = "Clear Defeat"
     defender_result = "Clear Victory"
@@ -511,11 +511,11 @@ def calculate_clear_defeat(request, player_id, attack_type):
 def calculate_narrow_defeat(request, player_id, attack_type):
     player = get_player(request, player_id)
     user = get_user(request)
-    get_user_troops = return_troops(request, user)
-    get_target_troops = return_troops(request, player)
-    get_user_power = return_power(request, user)
-    get_target_power = return_power(request, player)
-    get_production_object = production_object(request, player)
+    get_user_troops = get_troops(request, user)
+    get_target_troops = get_troops(request, player)
+    get_user_power = get_power(request, user)
+    get_target_power = get_power(request, player)
+    get_get_production = get_production(request, player)
     success = True
     attacker_result = "Defeat"
     defender_result = "Victory"
@@ -573,12 +573,12 @@ def spy(request, player_id):
     attack_type = "Intel"
     player = get_player(request, player_id)
     user = get_user(request)
-    attacker_troops = return_troops(request, user)
-    defender_troops = return_troops(request, player)
+    attacker_troops = get_troops(request, user)
+    defender_troops = get_troops(request, player)
     user_data_crystal_balance = get_data_crystal_balance(request, user)
     player_data_crystal_balance = get_data_crystal_balance(request, player)    
-    get_user_power = return_power(request, user)
-    get_player_power = return_power(request, player)   
+    get_user_power = get_power(request, user)
+    get_player_power = get_power(request, player)   
     fifty_percent_higher = calculate_fifty_percent(request, player_id, "Higher", attack_type)
     twenty_five_percent_higher = calculate_twenty_five_percent(request, player_id, "Higher", attack_type)
     fifty_percent_lower = calculate_fifty_percent(request, player_id, "Lower", attack_type)
@@ -686,13 +686,13 @@ def attack(request, player_id):
     attack_type = "Attack"
     player = get_player(request, player_id)
     user = get_user(request)
-    attacker_troops = return_troops(request, user)
-    defender_troops = return_troops(request, player)
+    attacker_troops = get_troops(request, user)
+    defender_troops = get_troops(request, player)
     user_data_crystal_balance = get_data_crystal_balance(request, user)
     player_data_crystal_balance = get_data_crystal_balance(request, player)    
     get_player_power = PlayerPower.objects.get(user_profile=player)
-    get_user_attack = return_power(request, user)
-    get_player_defence = return_power(request, player)   
+    get_user_attack = get_power(request, user)
+    get_player_defence = get_power(request, player)   
     fifty_percent_higher = calculate_fifty_percent(request, player_id, "Higher", attack_type)
     twenty_five_percent_higher = calculate_twenty_five_percent(request, player_id, "Higher", attack_type)
     fifty_percent_lower = calculate_fifty_percent(request, player_id, "Lower", attack_type)
@@ -786,7 +786,7 @@ def attack(request, player_id):
 
 
 def calculate_data_crystal(request, results, user, weighting):
-    query = production_object(request, user)
+    query = get_production(request, user)
     if weighting == "Loss":
         query.data_crystal_balance = query.data_crystal_balance - results['data_crystal_gain']
         query.save()
