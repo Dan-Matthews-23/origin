@@ -10,5 +10,6 @@ urlpatterns = [
     path('spy/<player_id>/', views.spy, name='spy'),
     path('attack/<player_id>/', views.attack, name='attack'),
     
+    
 ]
 

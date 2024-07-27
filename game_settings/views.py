@@ -5,6 +5,7 @@ from military.views import Troops
 from production.models import Production
 from player_power.models import PlayerPower
 from user_account.views import UserProfile
+from diplomacy.models import Diplomacy
 
 def get_user(request):
     user = UserProfile.objects.get(user=request.user)
@@ -21,6 +22,24 @@ def get_player(request, player_id):
     return player
 
 
+def get_diplomacy(request, user, player_id):
+    target = get_player(request, player_id)
+    if not target:
+        # Handle case where player is not found
+        return None  # or raise an appropriate exception
+
+    try:
+        diplomacy = Diplomacy.objects.get(user=user, target=target)
+    except Diplomacy.DoesNotExist:
+        diplomacy = Diplomacy.objects.create(
+            user=user,
+            target=target,
+            relation="Neutral",
+        )
+
+    return diplomacy
+
+
 
 
 
@@ -32,6 +51,7 @@ def get_production(request, user):
 def get_troops(request, user):
     get_troops = Troops.objects.get(user_profile=user)
     return get_troops
+
 
 
 def get_troop_attributes(request):

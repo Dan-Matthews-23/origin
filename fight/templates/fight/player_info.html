@@ -127,8 +127,50 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
 
-
+        <div class="col col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6 lg-padding with-borders ">
+            <div class="container-fluid left-grid with-borders">
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h1 class="title-table-header">Diplomatic Actions</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h3 class="standard-table-text">
+                            Your military advisors have prepared a summary based on what they know, but a full
+                            intelligence operation is needed to see everything
+                        </h3>
+                    </div>
+                </div>
+                <form method="POST" action="{% url 'make_ally' player_info.player_id %}">
+                    {% csrf_token %}
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <button type="submit" class="submit-btn-black" name="spy">
+                                    <i class="fa-solid fa-user-secret"></i>
+                                    Declare {{player_info.target_name}} an ally
+                                </button>
+                            </h3>
+                        </div>
+                    </div>
+                </form>
+                <form method="POST" action="{% url 'make_enemy' player_info.player_id %}">
+                    {% csrf_token %}
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <button type="submit" class="submit-btn-black" name="attack">
+                                    <i class="fa-solid fa-jet-fighter-up"></i>
+                                    Declare {{player_info.target_name}} an enemy
+                                </button>
+                            </h3>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
