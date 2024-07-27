@@ -317,7 +317,7 @@ def trainTroops(request):
         calculateIntel = calculate_intel(request, user)
         calculateIncome = calculate_income(request, user)
 
-        messages.success(request, 'Purchase successful.')
+        messages.success(request, 'Purchase successful on training troops')
         return redirect('renderMilitary')           
     return redirect('renderMilitary')
 

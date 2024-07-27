@@ -6,10 +6,17 @@ from production.models import Production
 from player_power.models import PlayerPower
 from user_account.views import UserProfile
 from diplomacy.models import Diplomacy
+from game_settings.base_mods import powers
 
 def get_user(request):
     user = UserProfile.objects.get(user=request.user)
     return user
+
+def get_bonus(request):
+    bonus_data = powers(request)    
+    return bonus_data
+
+    
 
 
 def get_power(request, user):
