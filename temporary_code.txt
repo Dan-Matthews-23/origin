@@ -1,4 +1,0 @@
-    ["Witches"]["Attack"][0]
-    ["Witches"]["Defence"][100]
-    ["Witches"]["Intel"][0]
-    ["Witches"]["Income"][0]

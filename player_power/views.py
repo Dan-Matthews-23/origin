@@ -7,11 +7,12 @@ from faction_data.models import TroopAttributes
 from game_settings.views import get_troops, get_user, get_power, get_troop_attributes, get_bonus
 
 
-def calculate_attack(request, user):    
+def calculate_attack(request, user):
+    user = get_user(request)    
     power = get_power(request, user)
     troops = get_troops(request, user)
     attributes = get_troop_attributes(request)
-    faction = user.faction
+    faction = "Amazons"#user.faction
     get_bonus_data = get_bonus(request)
     plus_bonus = 0
     
@@ -49,7 +50,7 @@ def calculate_defence(request, user):
     power = get_power(request, user)
     troops = get_troops(request, user)
     attributes = get_troop_attributes(request)
-    faction = user.faction
+    faction = "Amazons"#user.faction
     get_bonus_data = get_bonus(request)
     plus_bonus = 0
     
@@ -87,7 +88,7 @@ def calculate_intel(request, user):
     power = get_power(request, user)
     troops = get_troops(request, user)
     attributes = get_troop_attributes(request)
-    faction = user.faction
+    faction = "Amazons"#user.faction
     get_bonus_data = get_bonus(request)
     plus_bonus = 0
     
@@ -124,7 +125,7 @@ def calculate_income(request, user):
     power = get_power(request, user)
     troops = get_troops(request, user)
     attributes = get_troop_attributes(request)
-    faction = user.faction
+    faction = "Amazons"#user.faction
     get_bonus_data = get_bonus(request)
     plus_bonus = 0
     

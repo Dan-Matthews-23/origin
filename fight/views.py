@@ -17,7 +17,8 @@ from random import choice
 from reports.models import IntelLog, AttackLog
 from error_log.models import ErrorLog
 
-from game_settings.views import get_troops, get_power, get_user, get_player, get_production
+from game_settings.views import get_troops, get_power, get_user, get_player, get_production, get_diplomacy
+from game_settings.base_mods import data_crystal_from_attack
 
 from production.views import get_data_crystal_balance
 
@@ -236,7 +237,17 @@ def calculate_overwhelming_victory(request, player_id, attack_type):
         success = True
         attacker_result = "Overwhelming Victory"
         defender_result = "Overwhelming Defeat"
-        data_crystal_gain = ((get_get_production.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_OVERWHELMING_SUCCESS_ATTACK)
+
+        gain = data_crystal_from_attack(request)        
+        enemy_relation = get_diplomacy(request, user, player_id)
+        if enemy_relation and enemy_relation.relation == "Enemy":
+            
+            relation_bonus = gain[attacker_result]["is_enemy"]
+        else:
+            relation_bonus = gain[attacker_result]["base_gain"]
+        
+
+        data_crystal_gain = ((get_get_production.data_crystal_balance/100)*relation_bonus)
         attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_OVERWHELMING_SUCCESS_ATTACK * get_user_troops.weak_attack_troops)
         attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_OVERWHELMING_SUCCESS_ATTACK * get_user_troops.strong_attack_troops)
         attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_OVERWHELMING_SUCCESS_ATTACK * get_user_troops.elite_attack_troops)
@@ -304,7 +315,17 @@ def calculate_clear_victory(request, player_id, attack_type):
         success = biased_random_bool(true_bias)
         attacker_result = "Clear Victory"
         defender_result = "Clear Defeat"
-        data_crystal_gain = ((get_get_production.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_CLEAR_SUCCESS_ATTACK)
+
+
+        gain = data_crystal_from_attack(request)        
+        enemy_relation = get_diplomacy(request, user, player_id)
+        if enemy_relation and enemy_relation.relation == "Enemy":
+            
+            relation_bonus = gain[attacker_result]["is_enemy"]
+        else:
+            relation_bonus = gain[attacker_result]["base_gain"]
+
+        data_crystal_gain = ((get_get_production.data_crystal_balance/100)*relation_bonus)
         attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_user_troops.weak_attack_troops)
         attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_user_troops.strong_attack_troops)
         attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_CLEAR_SUCCESS_ATTACK * get_user_troops.elite_attack_troops)
@@ -365,7 +386,17 @@ def calculate_narrow_victory(request, player_id, attack_type):
         success = biased_random_bool(true_bias)
         attacker_result = "Victory"
         defender_result = "Defeat"
-        data_crystal_gain = ((get_get_production.data_crystal_balance/100)*settings.INCOME_GAIN_FOR_NARROW_SUCCESS_ATTACK)
+
+
+        gain = data_crystal_from_attack(request)        
+        enemy_relation = get_diplomacy(request, user, player_id)
+        if enemy_relation and enemy_relation.relation == "Enemy":
+            
+            relation_bonus = gain[attacker_result]["is_enemy"]
+        else:
+            relation_bonus = gain[attacker_result]["base_gain"]
+
+        data_crystal_gain = ((get_get_production.data_crystal_balance/100)*relation_bonus)
         attacker_loss_weak = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_user_troops.weak_attack_troops)
         attacker_loss_strong = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_user_troops.strong_attack_troops)
         attacker_loss_elite = (settings.ATTACKER_LOSS_FOR_NARROW_SUCCESS_ATTACK * get_user_troops.elite_attack_troops)
