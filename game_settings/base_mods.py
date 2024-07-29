@@ -43,3 +43,27 @@ def data_crystal_from_attack(request):
             },       
     }
     return gain
+
+
+def troop_loss(request):
+    loss = {
+        "Overwhelming Victory": {
+            "loss": 0,            
+            },
+        "Clear Victory": {            
+            "loss": 0.10
+            },
+         "Victory": {           
+            "loss": 0.15
+            },
+        "Defeat": {
+            "loss": 0.15
+        },
+        "Clear Defeat": {
+            "loss": 0.20
+        },
+        "Overwhelming Defeat": {
+            "loss": 0.35
+        },
+    }
+    return loss
