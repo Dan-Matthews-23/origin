@@ -30,3 +30,9 @@ def make_enemy(request, player_id):
     except diplomacy_object.DoesNotExist:
         messages.error("There was an error when setting relation to ally")
         return redirect(request.META.get('HTTP_REFERER'))
+
+def diplomatic_info(request, player_id):
+    return render(request, 'diplomacy/diplomatic_info.html')
+
+
+    

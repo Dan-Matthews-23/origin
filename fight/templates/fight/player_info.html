@@ -145,6 +145,8 @@
                         </h3>
                     </div>
                 </div>
+
+
                 <form method="POST" action="{% url 'make_ally' player_info.player_id %}">
                     {% csrf_token %}
                     <div class="row lg-padding">
@@ -171,6 +173,22 @@
                         </div>
                     </div>
                 </form>
+
+                <form method="POST" action="{% url 'diplomatic_info' player_info.player_id %}">
+                    {% csrf_token %}
+                    <div class="row lg-padding">
+                        <div class="col">
+                            <h3 class="standard-table-text">
+                                <button type="submit" class="submit-btn-black" name="attack">
+                                    <i class="fa-solid fa-jet-fighter-up"></i>
+                                    Further Diplomatic Actions
+                                </button>
+                            </h3>
+                        </div>
+                    </div>
+                </form>
+
+
             </div>
         </div>
 
