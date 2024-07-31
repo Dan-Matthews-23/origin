@@ -41,10 +41,17 @@
                 </div>
                 <div class="row lg-padding">
                     <div class="col">
-                        <button type="submit" class="submit-btn-black" name="attack">
-                            <i class="fa-solid fa-jet-fighter-up"></i>
-                            Propose Non-Aggression Pact
-                        </button>
+                        {% if not active %}
+                        <form method="POST" action="{% url 'non_aggression_pact' player_info.player_id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-btn-black" name="attack">
+                                <i class="fa-solid fa-jet-fighter-up"></i>
+                                Propose Non-Aggression Pact
+                            </button>
+                        </form>
+                        {% else %}
+                        There is an active thingy
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row lg-padding">

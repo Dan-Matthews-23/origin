@@ -7,6 +7,7 @@ from player_power.models import PlayerPower
 from user_account.views import UserProfile
 from diplomacy.models import Diplomacy
 from game_settings.base_mods import powers
+from diplomacy.models import NonAggression
 
 def get_user(request):
     user = UserProfile.objects.get(user=request.user)
@@ -105,3 +106,20 @@ def get_troop_attributes(request):
         # Handle the case where no TroopAttributes exist
         return None  # Or raise an appropriate exception
 
+
+def get_non_aggression_pacts(request, user, player):
+    query = None
+    try:
+        query = NonAggression.objects.get(user=user, target=player)
+    except NonAggression.DoesNotExist:
+        pass  # No need to explicitly return None as it's already assigned
+
+    return query
+
+
+
+
+
+
+
+        
