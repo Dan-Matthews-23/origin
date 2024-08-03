@@ -13,42 +13,51 @@
             <div class="container-fluid left-grid with-borders">
                 <div class="row lg-padding">
                     <div class="col">
-                        <h1 class="title-table-header">Diplomacy</h1>
+                        <h1 class="title-table-header">Pending Proposals</h1>
                     </div>
                 </div>
-                <div class="row lg-padding">
+                <div class="row">
                     <div class="col">
-                        <h3 class="title-table-header">Allies:</h3>
+                        <h3 class="title-table-header">Date</h3>
                     </div>
                     <div class="col">
-                        <h3 class="standard-table-text">0</h3>
+                        <h3 class="title-table-header">Player</h3>
                     </div>
-                </div>
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">Enemies:</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">0</h3>
-                    </div>
-                </div>
-                <div class="row lg-padding">
-                    <div class="col">
-                        <h3 class="title-table-header">Non-Aggression Pacts:</h3>
-                    </div>
-                    <div class="col">
-                        <h3 class="standard-table-text">0</h3>
-                    </div>
-                </div>
 
-                <div class="row lg-padding">
                     <div class="col">
-                        <h3 class="title-table-header">Diplomatic Power:</h3>
+                        <h3 class="title-table-header">Status</h3>
                     </div>
                     <div class="col">
-                        <h3 class="standard-table-text">0</h3>
+                        <h3 class="title-table-header">Actions</h3>
                     </div>
                 </div>
+                {% for pact in pending_aggression_list %}
+                <div class="row lg-padding">
+                    <div class="col">
+                        <h3 class="standard-table-text">{{pact.date}}</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">{{pact.target}}</h3>
+                    </div>
+                    <div class="col">
+                        <h3 class="standard-table-text">{{ pact.status }}</h3>
+                    </div>
+                    <div class="col">
+                        {% if pact.user_actions %}
+                        <form method="POST" action="{% url '' player_info.player_id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="submit-btn-black" name="accept">
+                                <i class="fa-solid"></i>
+                                Accept proposal
+                            </button>
+                        </form>
+                        {% else %}
+                        <h3 class="standard-table-text">No actions available</h3>
+                        {% endif %}
+                        </h3>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

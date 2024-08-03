@@ -4,9 +4,43 @@ from game_settings.views import get_user, get_player, get_diplomacy, get_non_agg
 from django.contrib import messages
 from diplomacy.models import NonAggression, DiplomaticTimeline
 from game_settings.base_mods import diplomatic_timeline_events
+from user_account.models import UserProfile
 
-def diplomacy(request):    
-    return render(request, 'diplomacy/diplomacy.html')
+def diplomacy(request):
+    user = get_user(request)
+    pending_aggression_list = []
+
+    for player in UserProfile.objects.all():
+        pact_query = get_non_aggression_pacts(request, user, player)
+        if pact_query:
+            active = True
+            if pact_query.user_accepted == True and pact_query.target_accepted == False:
+                pending_agression = {
+                    'date': pact_query.date,
+                    'status': f"Has not been accepted by {pact_query.target.user}",
+                    'target': pact_query.target.user,
+                    'user_actions': False,
+                }
+            elif pact_query.user_accepted == True and pact_query.target_accepted == False:
+                pending_agression = {
+                    'date': pact_query.date,
+                    'status': "You have not yet accepted this proposal",
+                    'target': pact_query.target.user,
+                    'user_actions': True,
+                }
+            else:
+                pending_agression = {
+                    'date': pact_query.date,
+                    'status': "Pending",
+                }
+            pending_aggression_list.append(pending_agression)
+        else:
+            active = False
+            pending_agression = {}
+
+    context = {'pending_aggression_list': pending_aggression_list, 'active': active}
+    return render(request, 'diplomacy/diplomacy.html', context)
+
 
 
 def make_ally(request, player_id):
